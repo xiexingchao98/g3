@@ -1,4 +1,6 @@
-# hello world
+# weixin-app-g4
 微信小程序实践，第四组
-zhoubert
-
+成员：
++ 谢星超
++ 周倩
++ zhoubert
