@@ -1,0 +1,34 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/commodity/commodity",
+    "pages/logs/logs"
+  ],
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#fff",
+    "navigationBarTitleText": "WeChat",
+    "navigationBarTextStyle": "black"
+  },
+  "sitemapLocation": "sitemap.json",
+  "tabBar": {
+    "custom": true,
+    "list": [
+      {
+        "pagePath": "pages/index/index"
+      },
+      {
+        "pagePath": "pages/index/index"
+      }
+    ]
+  },
+  "usingComponents": {
+    "van-button": "vant-weapp/dist/button/index",
+    "van-search": "vant-weapp/dist/search/index",
+    "van-tabbar": "vant-weapp/dist/tabbar/index",
+    "van-tabbar-item": "vant-weapp/dist/tabbar-item/index",
+    "van-icon": "vant-weapp/dist/icon/index",
+    "van-tabs": "vant-weapp/dist/tabs/index",
+    "van-tab": "vant-weapp/dist/tab/index"
+  }
+}

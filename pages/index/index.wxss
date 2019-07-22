@@ -1,0 +1,85 @@
+.page__hd_shadow-light,
+.menu_shadow-light {
+  box-shadow: 0 36px 48px -24px #eee;
+}
+.topbar {
+  display: flex;
+  padding: 10px 16px;
+}
+.btn {
+  padding: 12rpx;
+}
+
+.container {
+  padding: 10px 16px;
+}
+
+.menu {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  padding: 10px 16px;
+}
+
+.menu__item_size-medium {
+  padding: 6rpx 36rpx;
+}
+
+.menu__text_size-medium {
+  font-size: 9pt;
+  color: rgba(0,0,0,.5);
+  text-align: center;
+}
+
+.commodity-recommend_style-l2r {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  padding: 10px 16px;
+  background: #efefef;
+}
+
+.commodity-recommend__item_style-t2b {
+  color: rgba(0,0,0,.6);
+  background: #fff;
+  font-size: 10pt;
+  display: flex;
+  flex-direction: column;
+  border-radius: 18rpx;
+  box-shadow: 6rpx 6rpx 32rpx #ececec;
+  margin: 12rpx;
+  flex: 1 1 40%;
+  padding: 20rpx;
+}
+
+.commodity-recommend__cover_size-medium {
+  width: 100%;
+  height: 280rpx;
+}
+
+swiper {
+  width: 750rpx;
+  height: 421rpx;
+}
+
+.swiper-item__image-size-autofit {
+  width: 100%;
+  height: 100%;
+}
+
+.commodity-recommend__name {
+  font-size: 10pt;
+  height: 20pt;
+  text-overflow: ellipsis;
+}
+
+.commodity-recommend__price::before {
+  content: '￥';
+}
+
+.commodity-recommend__price {
+  font-family: Georgia, 'Times New Roman', Times, serif;
+  font-size: 12pt;
+  color: orange;
+  text-align: right;
+}

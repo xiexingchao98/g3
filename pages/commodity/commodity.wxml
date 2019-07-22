@@ -1,0 +1,24 @@
+<view class="page">
+  <view class='page__hd'></view>
+  <view class='page__bd'>
+    <view class="commodity">
+      <swiper class="" indicator-dots='true'>
+        <swiper-item wx:for='{{ swiperImages }}'>
+          <image src="{{ item }}"></image>
+        </swiper-item>
+      </swiper>
+      <view class="commodity__info" style='display: flex; justify-content: space-between; padding: 48rpx'>
+        <view class="commodity__name" style="font-size: 12pt">{{ name }}</view>
+        <view class="price">{{ price }}</view>
+      </view>
+      <van-tabs>
+        <van-tab title='介绍'>商品介绍</van-tab>
+        <van-tab title='成分'>商品成分清单</van-tab>
+      </van-tabs>
+    </view>
+    <view class='buttons' style="position: absolute; bottom: 0;">
+      <view class="button button_theme-light button_shape-rounded">加入购物车</view>
+      <view class="button button_theme-info button_shape-rounded">购买</view>
+    </view>
+  </view>
+</view>

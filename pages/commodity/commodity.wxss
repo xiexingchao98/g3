@@ -1,0 +1,44 @@
+swiper {
+  width: 750rpx;
+  height: 421rpx;
+}
+swiper-item image {
+  width: 100%;
+  height: 100%;
+  /* border-bottom-left-radius: 64rpx;
+  border-bottom-right-radius: 64rpx;
+  box-shadow: 0 10rpx 48rpx #eee; */
+}
+
+.buttons {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  padding: 16rpx 0;
+}
+
+.button {
+  text-align: center;
+  padding: 24rpx;
+}
+
+.buttons .button {
+  flex: 1 1;
+  margin: 0 12rpx;
+}
+
+.button_theme-light {
+  color: gray;
+  border: 1px solid lightgray;
+  background: #fff;
+}
+
+.button_shape-rounded {
+  border-radius: 999rpx;
+}
+
+.button_theme-info {
+  color: #fff;
+  background: orangered;
+  border: 1px solid orangered;
+}
