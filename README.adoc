@@ -1,0 +1,30 @@
+# g3
+
+项目整体 UI 组件库：
+
+https://github.com/youzan/vant-weapp[Vant]
+
+可供选择的 Icon 库：
+
+https://www.iconfont.cn[阿里巴巴矢量图标]
+
+https://material.io/tools/icons[Material Design Icon]
+
+https://ikonate.com/#content[Ikonate]
+
+页面设计参考：
+
+https://dribbble.com[Dribbble]
+
+
+底部 Tabbar 暂定分成 3 个入口。
+
+大致的页面组成为：
+
+. 首页
+. 肤质测试页
+. 整体分类页
+. 商品详情页
+. 购物车页
+. 结算页面
+. 我的
