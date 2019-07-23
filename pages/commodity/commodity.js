@@ -5,10 +5,17 @@ Page({
    * 页面的初始数据
    */
   data: {
-    swiperImages: ["https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=352610442,176194944&fm=26&gp=0.jpg", "https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=2391285236,327485075&fm=26&gp=0.jpg"],
-    name: '商品名称',
+    swiperImages: [
+      'https://img30.360buyimg.com/sku/jfs/t1/24989/31/5554/338706/5c3ff4ecE401b316e/c2987c542d73749d.jpg',
+      'https://img30.360buyimg.com/sku/jfs/t1/73186/27/2536/411306/5d0c7c67E25c47144/4bf22213d5e12e25.jpg',
+      'https://img30.360buyimg.com/sku/jfs/t1/31375/11/701/275009/5c3ff4ebE452f751a/cc8dc0639729b5c1.jpg',
+      'https://img30.360buyimg.com/sku/jfs/t1/25254/10/5589/271886/5c3ff4ecE9f3e4a9b/e370f0d2a1d1c14b.jpg'
+    ],
+    name: '欧莱雅（LOREAL）清润葡萄籽补水护肤化妆品',
     price: 199.9,
-    detail: '商品细节描述'
+    detail: '商品细节描述',
+    introduction: '欧莱雅（LOREAL）清润葡萄籽补水护肤化妆品套装礼盒(膜力水130ml+乳液110ml+乳液50ml+膜力水65ml)',
+    ingredient: '暂无信息'
   },
 
   /**
@@ -65,5 +72,8 @@ Page({
    */
   onShareAppMessage: function () {
 
+  },
+  doBuy: () => {
+    wx.navigateTo({ url: '/pages/pay/pay' })
   }
 })

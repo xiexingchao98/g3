@@ -1,40 +1,27 @@
 <view class="page">
   <view class='page__hd page__hd_shadow-light'>
-    <view class="topbar">
-      <view class="left" style="display: flex">
-        <view class="avatar" style="width: 80rpx; height: 80rpx; background: gray; border-radius: 999px; margin-right: 18rpx;"></view>
-        <view class="btn">
-          <van-icon name='shopping-cart-o' size='24px' />
-        </view>        
-      </view>
-      <view class="right" style="flex: 1 1; text-align: right;">
-        <view class="btn">
-          <van-icon name='add-o' size='24px'/>
-        </view>
-      </view>
-    </view>
     <van-search placeholder='请输入搜索关键字' />
   </view>
   <view class='page__bd'>
     <swiper indicator-dots='true' autoplay='true'>
       <swiper-item wx:for='{{ swiperImages }}'>
-        <image class='swiper-item__image-size-autofit' src="{{ item }}" mode="aspectFill" style="background: gray"></image>
+        <image class='swiper-item__image-size-inherit' src="{{ item }}" mode="aspectFill"></image>
       </swiper-item>
     </swiper>
     <view class="menu menu_shadow-light">
-      <view wx:for='{{ menuItems }}' class="menu__item menu__item_size-medium">
+      <navigator wx:for='{{ menuItems }}' class="menu__item menu__item_size-m" hover-class="menu__item_active">
         <view class="menu__icon">
           <i class="material-icons md-24 md-dark" style="color: {{ item.color ? item.color : '' }}">{{ item.icon }}</i>
         </view>
-        <view class='menu__text menu__text_size-medium'>{{ item.text }}</view>
-      </view>
+        <view class='menu__text menu__text_size-m'>{{ item.text }}</view>
+      </navigator>
     </view>
-    <view class="commodity-recommend commodity-recommend_style-l2r">
-      <navigator url='/pages/commodity/commodity' wx:for='{{ commodityList }}' class="commodity-recommend__item commodity-recommend__item_style-t2b">
-        <image src='{{ item.cover }}' mode='scaleToFill' class="commodity-recommend__cover commodity-recommend__cover_size-medium"></image>
-        <view class="commodity-recommend__info">
-          <view class="commodity-recommend__name">{{ item.name }}</view>
-          <view class="commodity-recommend__price">{{ item.price }}</view>
+    <view class="commodity-wrapper commodity-wrapper_theme-primary">
+      <navigator class="commodity commodity_theme-primary" url='/pages/commodity/commodity' wx:for='{{ commodityList }}'>
+        <image src='{{ item.cover }}' mode='scaleToFill' class="commodity__cover commodity__cover_size-m"></image>
+        <view class="commodity__info">
+          <view class="commodity__name">{{ item.name }}</view>
+          <view class="commodity__price">{{ item.price }}</view>
         </view>
       </navigator>
     </view>

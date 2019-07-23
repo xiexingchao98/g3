@@ -3,15 +3,24 @@ Component({
 		active: 0,
 		list: [
 			{
-				icon: 'home-o',
+				icon: {
+					normal: '/resources/icon/outline_home_black_48dp.png',
+					active: '/resources/icon/baseline_home_black_48dp.png'
+				},
 				url: '/pages/index/index'
 			},
 			{
-				icon: 'apps-o',
+				icon: {
+					normal: '/resources/icon/outline_shopping_cart_black_48dp.png',
+					active: '/resources/icon/baseline_shopping_cart_black_48dp.png'
+				},
 				url: '/pages/index/index'
 			},
 			{
-				icon: 'user-o',
+				icon: {
+					normal: '/resources/icon/outline_person_black_48dp.png',
+					active: '/resources/icon/baseline_person_black_48dp.png'
+				},
 				url: '/pages/index/index'
 			}
 		]

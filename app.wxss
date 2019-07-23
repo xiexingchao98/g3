@@ -1,5 +1,17 @@
 @import "material.wxss";
 
+
+@font-face {
+  font-family: 'puhui';
+  font-display: swap;
+  src: url('//at.alicdn.com/t/webfont_diok0tf4rf.eot'); /* IE9*/
+  src: url('//at.alicdn.com/t/webfont_diok0tf4rf.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+  url('//at.alicdn.com/t/webfont_diok0tf4rf.woff2') format('woff2'),
+  url('//at.alicdn.com/t/webfont_diok0tf4rf.woff') format('woff'), /* chrome、firefox */
+  url('//at.alicdn.com/t/webfont_diok0tf4rf.ttf') format('truetype'), /* chrome、firefox、opera、Safari, Android, iOS 4.2+*/
+  url('//at.alicdn.com/t/webfont_diok0tf4rf.svg#AlibabaPuHuiTiL') format('svg'); /* iOS 4.1- */
+}
+
 .container {
   height: 100%;
   display: flex;
@@ -10,17 +22,92 @@
   box-sizing: border-box;
 }
 
-page {
+/* page {
   padding-bottom: 50px;
-}
+} */
 
+page {
+  font-family: puhui;
+  color: rgba(0,0,0,.78);
+}
 
 .price::before {
   content: '￥';
 }
 
 .price {
-  font-family: Georgia, 'Times New Roman', Times, serif;
-  font-size: 12pt;
+  font-size: 9pt;
   color: orange;
+  letter-spacing: 3rpx;
+}
+
+.price__number {
+  font-size: 12pt;
+  font-weight: bold;
+}
+
+.price__number_size-s {
+  font-size: 11pt;
+}
+
+.price__number_size-m {
+  font-size: 13pt;
+}
+
+.price__number_size-l {
+  font-size: 14pt;
+}
+
+.buttons {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  padding: 32rpx 0;
+  z-index: 9;
+}
+
+.button {
+  font-weight: bold;
+  text-align: center;
+  padding: 20rpx;
+  font-size: 10pt;
+  transition: .1s ease;
+}
+
+.buttons .button {
+  flex: 1 1;
+  margin: 0 24rpx;
+}
+
+.button_theme-light {
+  color: #ababab;
+  border: 1px solid #ececec;
+  background: #fff;
+}
+
+.button_theme-light_active {
+  box-shadow: 0 8rpx 32rpx -6rpx lightgray;
+}
+
+
+.button_shape-rounded {
+  border-radius: 999rpx;
+}
+
+.button_theme-buy {
+  color: #fff;
+  background: linear-gradient(45deg, #8b00dd,#cd00ea, #e98df5);
+}
+
+.button_theme-buy_active {
+  box-shadow: 0 8rpx 32rpx -6rpx #cd00ea;
+}
+
+.button_theme-pay {
+  color: #fff;
+  background: linear-gradient(45deg, orange, orangered);
+}
+
+.button_theme-pay_active {
+  box-shadow: 0 8rpx 32rpx -6rpx orangered;
 }
