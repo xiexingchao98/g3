@@ -29,6 +29,11 @@
 page {
   font-family: puhui;
   color: rgba(0,0,0,.78);
+  padding-bottom: 50px;
+}
+
+.page {
+  min-height: 100vh;
 }
 
 .price::before {
@@ -96,7 +101,7 @@ page {
 
 .button_theme-buy {
   color: #fff;
-  background: linear-gradient(45deg, #8b00dd,#cd00ea, #e98df5);
+  background: linear-gradient(45deg, #8b00dd, #e98df5);
 }
 
 .button_theme-buy_active {
@@ -110,4 +115,28 @@ page {
 
 .button_theme-pay_active {
   box-shadow: 0 8rpx 32rpx -6rpx orangered;
+}
+
+.icon {
+}
+
+.icon_size-24 {
+  width: 24px;
+  height: 24px;
+}
+
+.text {
+  font-size: 11pt;
+}
+
+.text_size-s {
+  font-size: 10pt;
+}
+
+.text_size-m {
+  font-size: 12pt;
+}
+
+.text_size-l {
+  font-size: 14pt;
 }

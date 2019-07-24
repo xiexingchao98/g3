@@ -1,0 +1,28 @@
+<view class='body'>
+<view class='topnav'>
+  <van-nav-bar title="购物车" right-text="编辑" left-arrow:false safe-area-inset-top:false>
+  <van-icon name="search" slot="right" />
+  </van-nav-bar>
+</view>
+<view class='item'>
+<van-checkbox class="check" value="{{ checked }}" bind:change="onChange"></van-checkbox>       
+<van-card class='goodinfo'num="2" tag="标签" price="10.00" desc="描述信息" title="商品标题" thumb="{{ imageURL }}">
+    <view slot="footer">
+        <van-stepper value="{{ 1 }}" bind:change="onChange" />
+    </view>
+</van-card>
+</view>
+
+<van-submit-bar
+  price="{{ 3050 }}"
+  button-text="结算"
+  bind:submit="onClickButton"
+  tip="{{ true }}">
+  <view slot='-'>
+    <van-checkbox class="check" value="{{ checked }}" bind:change="onChange">全选</van-checkbox>
+  </view>
+  <view slot="tip">
+    您的收货地址不支持同城送, <text>修改地址</text>
+  </view>
+</van-submit-bar>
+</view>

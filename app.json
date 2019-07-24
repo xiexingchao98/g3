@@ -1,9 +1,12 @@
 {
   "pages": [
+    "pages/my/my",
     "pages/index/index",
     "pages/pay/pay",
     "pages/commodity/commodity",
-    "pages/logs/logs"
+    "pages/logs/logs",
+    "pages/cart/cart",
+    "pages/classification/classification"
   ],
   "window": {
     "backgroundTextStyle": "light",
@@ -19,7 +22,13 @@
         "pagePath": "pages/index/index"
       },
       {
-        "pagePath": "pages/index/index"
+        "pagePath": "pages/cart/cart"
+      },
+      {
+        "pagePath": "pages/my/my"
+      },
+      {
+        "pagePath": "pages/classification/classification"
       }
     ]
   },

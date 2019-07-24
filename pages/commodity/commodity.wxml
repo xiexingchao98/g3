@@ -26,7 +26,7 @@
     </view>
   </view>
   <view class='buttons' style="position: fixed; bottom: 0; background: #fff; box-shadow: 0 -1px 3px lightgray">
-    <view class="button button_theme-light button_shape-rounded" hover-class='button_theme-light_active'>加入购物车</view>
+    <view class="button button_theme-light button_shape-rounded" hover-class='button_theme-light_active' bind:tap='doAddToCart'>加入购物车</view>
     <view class="button button_theme-buy button_shape-rounded" hover-class="button_theme-buy_active" bind:tap='doBuy'>购买</view>
   </view>  
 </view>

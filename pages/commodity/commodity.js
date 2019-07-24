@@ -75,5 +75,9 @@ Page({
   },
   doBuy: () => {
     wx.navigateTo({ url: '/pages/pay/pay' })
+  },
+  doAddToCart: () => {
+    // 业务逻辑代码
+    wx.showToast({ title: '加入购物车成功', icon: 'success' })
   }
 })

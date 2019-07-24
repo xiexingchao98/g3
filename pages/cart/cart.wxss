@@ -1,0 +1,34 @@
+.body{
+  position: fixed;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+.topnav{
+  line-height: 100rpx;
+  display: flex;
+  flex-direction: column;
+}
+.item{
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  width: 100%;
+  height: 300rpx;
+}
+.goodinfo{
+  height: 300rpx;
+  width: 90%;
+}
+.check{
+  margin-left: 20rpx;
+  margin-top: 140rpx;
+  height: 300rpx;
+  width: 10%;
+}
+
+
+
+
