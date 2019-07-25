@@ -1,0 +1,13 @@
+camera {
+  width: 100vw;
+  height: 100vh;
+  z-index: -999;
+}
+
+cover-view {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

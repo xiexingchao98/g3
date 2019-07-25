@@ -1,0 +1,23 @@
+{
+  "name": "g3",
+  "version": "1.0.0",
+  "description": "项目整体 UI 组件库：",
+  "main": "app.js",
+  "dependencies": {
+    "vant-weapp": "^0.5.16"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/xiexingchao98/g3.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/xiexingchao98/g3/issues"
+  },
+  "homepage": "https://github.com/xiexingchao98/g3#readme"
+}

@@ -1,0 +1,8 @@
+<camera class="" mode="normal" device-position="front">
+<cover-view >
+  <button>拍照</button>
+</cover-view>
+</camera>
+
+<!-- <view>{{ src }}</view>
+<view>{{ status }}</view> -->

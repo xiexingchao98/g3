@@ -9,7 +9,7 @@
       </swiper-item>
     </swiper>
     <view class="menu menu_shadow-light">
-      <navigator wx:for='{{ menuItems }}' class="menu__item menu__item_size-m" hover-class="menu__item_active">
+      <navigator wx:for='{{ menuItems }}' url='{{ item.url }}' class="menu__item menu__item_size-m" hover-class="menu__item_active">
         <view class="menu__icon">
           <i class="material-icons md-24 md-dark" style="color: {{ item.color ? item.color : '' }}">{{ item.icon }}</i>
         </view>
