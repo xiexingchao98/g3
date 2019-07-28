@@ -34,6 +34,9 @@ App({
     })
   },
   globalData: {
-    userInfo: null
+    userInfo: null,
+    // serverPath: 'http://120.78.163.56/'
+    // serverPath: 'http://127.0.0.1:8360/',
+    serverPath: 'https://whatdoyoudo.club/api'
   }
 })

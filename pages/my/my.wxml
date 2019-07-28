@@ -15,6 +15,10 @@
       </view>      
     </view>
     <view class="user-profile__body">
+      <navigator url='/pages/test-result/test-result' class="user-profile__skin-test-history">
+        <i class="material-icons md-24 md-dark">history</i>
+        <text class="text text_size-s">测肤历史</text>
+      </navigator>
       <view class="user-profile__skin-state-chart">
         <i class="material-icons md-24 md-dark">bar_chart</i>
         <text class="text text_size-s">肤质变化表</text>

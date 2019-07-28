@@ -261,7 +261,7 @@ page {
 .user-profile__body {
   padding: 20rpx 20rpx 20rpx 40rpx;
   display: flex;
-  justify-content: space-between;
+  justify-content: space-around;
 }
 
 .user-profile__basic-data {
@@ -278,6 +278,7 @@ page {
   align-items: center;
 }
 
+.user-profile__skin-test-history,
 .user-profile__skin-state-chart {
   display: flex;
   flex-direction: column;

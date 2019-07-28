@@ -1,19 +1,17 @@
-// pages/skin-test/skin-test.js
+const app = getApp()
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
-    src: '',
-    status: ''
+
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-
   },
 
   /**
@@ -27,49 +25,19 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-    let cameraContext = wx.createCameraContext()
-    let that = this
-    // setInterval(function() {
-    //   cameraContext.takePhoto({
-    //     quality: 'normal',
-    //     success: function (res) {
-    //       that.setData({
-    //         src: res.tempImagePath
-    //       })
-    //       wx.compressImage({
-    //         src: res.tempImagePath,
-    //         success: (res) => {
-    //           wx.uploadFile({
-    //             url: 'http://www.whatdoyoudo.club:8360/user/upload',
-    //             filePath: res.tempFilePath,
-    //             name: 'image',
-    //             success: (res) => {
-    //               that.setData({ status: 'success' })
-    //               console.log(res.data)
-    //             },
-    //             fail: () => {
-    //               that.setData({ status: 'fail' })
-    //             }
-    //           })
-    //         }
-    //       })
-    //     }
-    //   })
-    // }, 1000)
+
   },
 
   /**
    * 生命周期函数--监听页面隐藏
    */
   onHide: function () {
-
   },
 
   /**
    * 生命周期函数--监听页面卸载
    */
   onUnload: function () {
-
   },
 
   /**
@@ -91,5 +59,39 @@ Page({
    */
   onShareAppMessage: function () {
 
+  },
+  takePhoto () {
+    wx.showLoading({ title: '上传中' })
+    let cameraContext = wx.createCameraContext()
+    let that = this
+    cameraContext.takePhoto({
+      quality: 'normal',
+      success: function (takePhotoRes) {
+        wx.compressImage({
+          src: takePhotoRes.tempImagePath,
+          success: (compressRes) => {
+            wx.uploadFile({
+              url: app.globalData.serverPath + '/skintest/user/upload',
+              filePath: compressRes.tempFilePath,
+              name: 'image',
+              success: (uploadRes) => {
+                console.log(uploadRes)
+                wx.setStorageSync('testResult',JSON.parse(uploadRes.data))
+                that.setData({ status: 'success' })
+                wx.navigateTo({
+                  url: '/pages/test-result/test-result'
+                });
+                wx.showToast({ title: '上传成功' })
+              },
+              fail: () => {
+                that.setData({ status: 'fail' })
+                wx.showToast({ title: '上传失败', icon: 'none'})
+              }
+            })
+            setTimeout(() => {wx.showToast({ title: '上传失败' })}, 25000)
+          }
+        })
+      },
+    })    
   }
 })

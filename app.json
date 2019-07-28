@@ -1,6 +1,7 @@
 {
   "pages": [
     "pages/index/index",
+    "pages/test-result/test-result",
     "pages/skin-test/skin-test",
     "pages/my/my",
     "pages/pay/pay",

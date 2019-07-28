@@ -1,4 +1,5 @@
-// pages/commodity/commodity.js
+const app = getApp()
+
 Page({
 
   /**
@@ -22,7 +23,8 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-
+    console.log(options)
+    this.getCommodity(options.id) 
   },
 
   /**
@@ -79,5 +81,14 @@ Page({
   doAddToCart: () => {
     // 业务逻辑代码
     wx.showToast({ title: '加入购物车成功', icon: 'success' })
+  },
+  getCommodity(commodity_id) {
+    wx.request({
+      method: 'GET',
+      url: app.globalData.serverPath + '/database/commodity/detail?id=' + commodity_id,
+      success: (res) => {
+        this.setData({ commodity: res.data })
+      }
+    })
   }
 })

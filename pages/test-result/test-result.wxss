@@ -1,0 +1,39 @@
+.test-result {
+  padding: 20rpx;
+}
+
+.test-result__title {
+  margin: 36rpx 0;
+}
+
+.test-result__title {
+  display: flex;
+  align-items: center;
+}
+
+.test-result__header {
+  margin: 20rpx 0;
+  border-left: 4px solid lightgray;
+  padding-left: 36rpx;
+}
+
+.test-result__body {
+  margin-top: 36rpx;
+}
+
+.test-result__detail {
+  display: flex;
+  border: 1px solid lightgray;
+  margin: 24rpx 0;
+}
+
+.detail__problem {
+  flex: 1 1;
+  text-align: center;
+  border-right: 1px solid lightgray;
+}
+
+.detail__status {
+  flex: 1 1;
+  text-align: center;
+}
