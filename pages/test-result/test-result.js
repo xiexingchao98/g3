@@ -79,7 +79,7 @@ Page({
     let that = this
     wx.request({
       method: 'GET',
-      url: app.globalData.serverPath + 'category',
+      url: app.globalData.serverPath + '/database/category',
       success: (res) => {
         this.setData({ categoryList: res.data })
         that.getAllCommodity()
@@ -89,7 +89,7 @@ Page({
   getRecommendCommodity() {
     wx.request({
       method: 'GET',
-      url: app.serverPath + 'commodity/personal'
+      url: app.serverPath + '/database/commodity/personal'
     })
   },
   genTags(testResult) {
@@ -114,7 +114,7 @@ Page({
     for (let i = 0; i < this.data.categoryList.length; ++i) {
       wx.request({
         method: 'POST',
-        url: app.globalData.serverPath + 'recommend/personal',
+        url: app.globalData.serverPath + '/database/recommend/personal',
         data: {
           category_id: this.data.categoryList[i].category_id,
           tags: tags

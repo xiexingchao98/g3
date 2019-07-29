@@ -1,3 +1,5 @@
+const app = getApp()
+
 Page({
 
   /**
@@ -28,6 +30,7 @@ Page({
     userInfo: {},
     following: 8,
     follower: '12.8K',
+    isLogged: false
   },
 
   /**
@@ -35,15 +38,15 @@ Page({
    */
   onLoad: function (options) {
     let that = this
-    wx.getUserInfo({
-      success: (res)=>{
-        console.log(res);
-        that.setData({ userInfo: res.userInfo })        
+    wx.checkSession({
+      success: () => {
+        console.log('check session success')
+        this.getUserInfo()
       },
-      fail: (err) => {
-        console.log(err)
+      fail: () => {
+        console.log('check session fail')
       }
-    });
+    })
   },
 
   /**
@@ -97,5 +100,39 @@ Page({
    */
   onShareAppMessage: function () {
     
+  },
+  doLogin (e) {
+    if (e.detail.userInfo) {
+      wx.login({
+        success: (res) => {
+          console.log(res.code)
+          wx.request({
+            method: 'POST',
+            url: app.globalData.serverPath + '/database/oauth/login/weixin',
+            data: {
+              code: res.code
+            },
+            success: (res) => {
+              console.log(res)
+              this.getUserInfo()
+              wx.showToast({ title: '登录成功' })
+            }
+          })
+        }
+      })
+    }
+    else {
+      wx.showToast({ title: '授权失败', icon: 'none' })
+    }
+  },
+  getUserInfo() {
+    wx.getUserInfo({
+      success: (res) => {
+        this.setData({
+          isLogged: true,
+          userInfo: res.userInfo
+        })
+      }
+    })
   }
 })

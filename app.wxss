@@ -77,6 +77,7 @@ page {
   padding: 20rpx;
   font-size: 10pt;
   transition: .1s ease;
+  line-height: 1;
 }
 
 .buttons .button {
@@ -115,6 +116,19 @@ page {
 
 .button_theme-pay_active {
   box-shadow: 0 8rpx 32rpx -6rpx orangered;
+}
+
+.button_theme-login {
+  color: #fff;
+  background: linear-gradient(135deg, #4a148c, #9c27b0);
+}
+
+.button_size-m {
+  padding: 16rpx 48rpx;
+}
+
+.button_size-l {
+  padding: 24rpx 96rpx;
 }
 
 .icon {

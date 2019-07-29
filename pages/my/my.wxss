@@ -254,14 +254,14 @@ page {
   display: flex;
   justify-content: space-evenly;
   align-items: center;
-  padding: 0 20rpx 40rpx 40rpx;
-  border-bottom: 1px dotted #eee;
+  padding: 36rpx;
 }
 
 .user-profile__body {
   padding: 20rpx 20rpx 20rpx 40rpx;
   display: flex;
   justify-content: space-around;
+  border-top: 1px dotted #eee;
 }
 
 .user-profile__basic-data {
@@ -319,6 +319,12 @@ page {
               10rpx 20rpx 25rpx -8rpx #DCDCDC,
               -10rpx 20rpx 25rpx -8rpx #DCDCDC;
   margin: 36rpx;
+}
+
+.user-login {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .my-order {

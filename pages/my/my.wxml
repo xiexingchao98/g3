@@ -1,29 +1,40 @@
 <view class='page'>
   <view class='user-profile'>
     <view class="user-profile__header">
-      <view class="user-profile__basic-data">
-        <view class="user-profile__avatar">
-          <image class='image_type-avatar' src="{{ userInfo.avatarUrl }}" mode="widthFix"></image>
+      <!-- 已经登录用户组件 -->
+      <block wx:if='{{ isLogged }}'>
+        <view class="user-profile__basic-data">
+          <view class="user-profile__avatar">
+            <image class='image_type-avatar' src="{{ userInfo.avatarUrl }}" mode="widthFix"></image>
+          </view>
+          <view class="user-profile__nickname">
+            <text class='text_type-nickname'>{{ userInfo.nickName }}</text>
+          </view>
         </view>
-        <view class="user-profile__nickname">
-          <text class='text_type-nickname'>{{ userInfo.nickName }}</text>
+        <view class="user-profile__social-data">
+          <view class="user-profile__following text text_size-s">{{ following }}</view>
+          <view class="user-profile__follower text text_size-s">{{ follower }}</view>
+        </view>      
+      </block>
+      <!-- 未登录用户组件 -->
+      <block wx:else>
+        <view class="user-login">
+          <button class="button button_size-l button_shape-rounded button_theme-login" open-type='getUserInfo' bind:getuserinfo='doLogin'>登录</button>
         </view>
-      </view>
-      <view class="user-profile__social-data">
-        <view class="user-profile__following text text_size-s">{{ following }}</view>
-        <view class="user-profile__follower text text_size-s">{{ follower }}</view>
-      </view>      
+      </block>
     </view>
-    <view class="user-profile__body">
-      <navigator url='/pages/test-result/test-result' class="user-profile__skin-test-history">
-        <i class="material-icons md-24 md-dark">history</i>
-        <text class="text text_size-s">测肤历史</text>
-      </navigator>
-      <view class="user-profile__skin-state-chart">
-        <i class="material-icons md-24 md-dark">bar_chart</i>
-        <text class="text text_size-s">肤质变化表</text>
-      </view>
-    </view>
+    <block wx:if='{{ isLogged }}'>
+      <view class="user-profile__body">
+        <navigator url='/pages/test-result/test-result' class="user-profile__skin-test-history">
+          <i class="material-icons md-24 md-dark">history</i>
+          <text class="text text_size-s">测肤历史</text>
+        </navigator>
+        <view class="user-profile__skin-state-chart">
+          <i class="material-icons md-24 md-dark">bar_chart</i>
+          <text class="text text_size-s">肤质变化表</text>
+        </view>
+      </view>    
+    </block>
   </view>
 
   <view class='my-order'>

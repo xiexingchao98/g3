@@ -35,7 +35,7 @@
       <van-tabs active='{{ active }}' sticky swipeable>
         <van-tab wx:for='{{ categoryList }}' title='{{ item.category_name }}'>
           <view class="commodity-wrapper commodity-wrapper_theme-primary">
-            <navigator wx:for='{{ commodityList[item.category_id] }}' class="commodity commodity_theme-primary" url='/pages/commodity/commodity'>
+            <navigator wx:for='{{ commodityList[item.category_id] }}' class="commodity commodity_theme-primary" url='/pages/commodity/commodity?id={{item.commodity_id}}'>
               <image src='{{ item.commodity_cover }}' mode='scaleToFill' class="commodity__cover commodity__cover_size-m"></image>
               <view class="commodity__info">
                 <view class="commodity__name">{{ item.commodity_name }}</view>
