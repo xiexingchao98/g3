@@ -1,4 +1,5 @@
 :toc:
+:imagesdir: ./images
 
 = G3 Project
 
@@ -65,6 +66,99 @@ https://youzan.github.io/vant-weapp/#/intro - Vant UI 组件库
 . 组长确认已收集全部组员的数据，则关闭连接
 
 ==== 高级部分
+
+===== A
+
+目标
+
+. 对所存储的基本图像，进行光学校正 ，具体指增加/减少曝光度、白平衡等
+
+实现介绍
+
+基于 OpenCV 的图像的白平衡处理机制，用来解决客户在环境不太友好的情况下，最大可能的还原真实的脸部特征和肤色。 在参考以下资料以后，我采用了“完美世界反射和灰度世界假设法”来进行图像的白平衡修正。
+
+*算法原理*
+
+灰度世界算法假定图片具有大量的色彩变化，于是 RGB 分量趋近于同一个值 K 。一般令 K = (Raver + Gaver + Baver) / 3,其中 Raver ，Gaver ，Baver 分别表示红、 绿、 蓝三个通道的平均值。第二步是计算各通道的增益，如 Kr = K / Raver ，最后图像中每一个像素点 Rnew = R * Kr 。意思大概就是如果某个通道平均强度大于三通道的平均强度，就令这个通道的整体强度按比例降低，反之亦然。
+
+另一个算法完美反射算法假设图片中最亮的点就是一面镜子，完美地反射了外部光照，并根据这些白点进行白平衡。它定义为 R + G + B 的最大值。让这些白点的 RGB 三个通道按照比例拉伸到 255，并将其他的点的三个通道按照同样比例拉伸，超过 255 的设为 255 ，是一个归一化过程。OpenCV 中的完美反射大概是将白点的比例设为 1% ，改了个名字叫 SimpleWB ，这样用户就不用调参数了。
+
+*算法实现*
+
+首先，引用 OpenCV、Matplotlib 和 Numpy 模块
+
+由于图像处理矩阵对传入的图片的大小和像素的多少在进行处理的时候会导致时间的长短不一样。由于我们这个在用户上传图像以后会要求马上出结果，所以先要进行一个图像的大小设置和压缩。在这里我把图片设置成了（300, 480）的规格大小。
+
+[source, python]
+----
+res = cv2.imread(r'images\4.jpg')
+img=cv2.resize(res,(300,480),interpolation=cv2.INTER_CUBIC)
+----
+
+*核心代码*
+
+[source, python]
+----
+m, n, t = img.shape
+print(b.shape)
+sum = np.zeros(b.shape)
+for i in range(m):
+    for j in range(n):
+        sum[i][j] = int(b[i][j]) + int(g[i][j]) + int(r[i][j])
+hists, bins = np.histogram(sum.flatten(), 766, [0, 766])
+Y = 765
+num, key = 0, 0
+while Y >= 0:
+    num += hists[Y]
+    if num > m * n * 0.01 / 100:
+        key = Y
+        break
+    Y = Y - 1
+
+sum_b, sum_g, sum_r = 0, 0, 0
+time = 0
+for i in range(m):
+    for j in range(n):
+        if sum[i][j] >= Y:
+            sum_b += b[i][j]
+            sum_g += g[i][j]
+            sum_r += r[i][j]
+            time = time + 1
+
+avg_b = sum_b / time
+avg_g = sum_g / time
+avg_r = sum_r / time
+
+for i in range(m):
+    for j in range(n):
+        b[i][j] = b[i][j] * 255 / avg_b
+        g[i][j] = g[i][j] * 255 / avg_g
+        r[i][j] = r[i][j] * 255 / avg_r
+        if b[i][j] > 255:
+            b[i][j] = 255
+        if b[i][j] < 0:
+            b[i][j] = 0
+        if g[i][j] > 255:
+            g[i][j] = 255
+        if g[i][j] < 0:
+            g[i][j] = 0
+        if r[i][j] > 255:
+            r[i][j] = 255
+        if r[i][j] < 0:
+            r[i][j] = 0
+
+img_0 = cv2.merge([b, g, r])
+cv2.imshow('xiutu', img_0)
+----
+
+实验结果：
+
+image::opencv-process-compare.png[处理效果对比图]
+
+*参阅*
+
+https://blog.csdn.net/shadow_guo/article/details/43602051 - 肤色检测
+https://patents.google.com/patent/CN106529429A/zh - 肤质检测硕博论文
 
 ===== C
 
