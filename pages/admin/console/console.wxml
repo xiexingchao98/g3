@@ -1,6 +1,0 @@
-<block wx:if='err'>
-  <van-notice-bar mode='closeable' text='{{ errMsg }}' />
-</block>
-<view>库存：{{ realdata.stock }}</view>
-<view >生产中：{{ realdata.on_producing }}</view>
-<view >打包中：{{ realdata.on_packing }}</view>

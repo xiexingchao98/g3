@@ -72,19 +72,12 @@ page {
 }
 
 .button {
-  display: flex;
-  justify-content: center;
-  align-items: center;
   font-weight: bold;
   text-align: center;
   padding: 20rpx;
   font-size: 10pt;
   transition: .1s ease;
   line-height: 1;
-}
-
-.button_style-inline {
-  display: inline-flex;
 }
 
 .buttons .button {
@@ -96,28 +89,6 @@ page {
   color: #ababab;
   border: 1px solid #ececec;
   background: #fff;
-}
-
-.button_theme-blue {
-  color: #1e88e5;
-  background: #fff;
-  border: 1px solid #1e88e5;
-}
-
-.button_theme-blue_active {
-  color: #fff;
-  background: #1e88e5;
-}
-
-.button_theme-primary {
-  color: #009acd;
-  border: 1px solid #009acd;
-  background: #fff;
-}
-
-.button_theme-primary_active {
-  color: #fff;
-  background: #009acd;
 }
 
 .button_theme-light_active {
@@ -184,6 +155,7 @@ page {
   font-size: 14pt;
 }
 
+
 .commodity-wrapper_theme-primary {
   display: flex;
   flex-wrap: wrap;
@@ -200,9 +172,8 @@ page {
   flex-direction: column;
   border-radius: 18rpx;
   box-shadow: 6rpx 6rpx 32rpx #ececec;
-  margin: 12rpx 8rpx;
-  flex: 1 1 39%;
-  max-width: 44.5%;
+  margin: 12rpx;
+  flex: 1 1 40%;
   padding: 20rpx;
 }
 
@@ -212,10 +183,8 @@ page {
 }
 
 .commodity__name {
-  flex: 1 1;
   font-size: 10pt;
-  margin-bottom: 16rpx;
-  overflow: hidden;
+  height: 20pt;
   text-overflow: ellipsis;
 }
 
@@ -247,115 +216,4 @@ page {
   display: flex;
   flex-wrap: wrap;
   margin-left: 10rpx;
-}
-
-.commodity__info {
-  display: flex;
-  flex-direction: column;
-  flex: 1 1;
-}
-
-.commodity__info_direction-row {
-  flex-direction: row;
-}
-
-.title {
-  margin: 24rpx 0;
-}
-
-.title_has-icon {
-  display: flex;
-}
-
-.title__text {
-  margin-left: 8rpx;
-}
-
-.title_size-m {
-  margin: 36rpx 0;
-}
-
-.post-preview {
-  background: #fff;
-  padding: 24rpx;
-  box-shadow: 2rpx 8rpx 24rpx -4rpx lightgray;
-  margin-bottom: 24rpx;
-  position: relative;
-}
-
-.post__create-time,
-.post__last-comment-time {
-  font-size: 8pt;
-}
-
-.post__create-time::before {
-  content: '发布于：';
-}
-
-.post__last-comment-time::before {
-  content: '最后回复于：';
-}
-
-.post__comment-count {
-  position: absolute;
-  bottom: 24rpx;
-  right: 24rpx;
-  display: inline-block;
-  font-size: 8pt;
-}
-
-.post__comment-count::before {
-  content: '评论数';
-  margin-right: 8rpx;
-}
-
-.comment {
-  padding: 12rpx 24rpx 24rpx 24rpx;
-  margin: 24rpx 0;
-  border-bottom: 1px solid lightgray;
-}
-
-.post__comment-count {
-  border: 1px solid lightgray;
-  padding: 6rpx 12rpx;
-}
-
-.disable {
-  display: none;
-}
-
-.shadow {
-  width: 750rpx;
-  height: 100vh;
-  overflow: hidden;
-  background: rgba(0,0,0,.5);
-  position: absolute;
-  top: 0;
-  left: 0;
-  z-index: 99;
-}
-
-.input {
-  border: 1px solid lightgray;
-  padding: 6rpx 8rpx;
-}
-
-.input_style-inline {
-  display: inline-flex;
-}
-
-.textarea {
-  border: 1px solid lightgray;
-  padding: 12rpx;
-}
-
-button {
-  position: none;
-  padding: none;
-  font-size: none;
-  line-height: none;
-  border-radius: none;
-  background-color: none;
-  margin: none;
-  border: none;
 }

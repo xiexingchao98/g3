@@ -36,9 +36,7 @@ App({
   globalData: {
     userInfo: null,
     // serverPath: 'http://120.78.163.56/'
-    // serverPath: 'http://127.0.0.1:8360/api',
-    storageKey: 'g3',
-    socketServerPath: 'wss://whatdoyoudo.club/api/database/ws',
+    // serverPath: 'http://127.0.0.1:8360/api'
     serverPath: 'https://whatdoyoudo.club/api'
   }
 })

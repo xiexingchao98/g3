@@ -11,10 +11,10 @@
             <text class='text_type-nickname'>{{ userInfo.nickName }}</text>
           </view>
         </view>
-        <!-- <view class="user-profile__social-data">
+        <view class="user-profile__social-data">
           <view class="user-profile__following text text_size-s">{{ following }}</view>
           <view class="user-profile__follower text text_size-s">{{ follower }}</view>
-        </view>       -->
+        </view>      
       </block>
       <!-- 未登录用户组件 -->
       <block wx:else>
@@ -29,15 +29,15 @@
           <i class="material-icons md-24 md-dark">history</i>
           <text class="text text_size-s">测肤历史</text>
         </navigator>
-        <!-- <view class="user-profile__skin-state-chart">
+        <view class="user-profile__skin-state-chart">
           <i class="material-icons md-24 md-dark">bar_chart</i>
           <text class="text text_size-s">肤质变化表</text>
-        </view> -->
+        </view>
       </view>    
     </block>
   </view>
 
-  <!-- <view class='my-order'>
+  <view class='my-order'>
     <view class='my-order__header'>
       <view class='my-order__title'>我的订单</view>
       <view class='my-order__view-all'>
@@ -59,15 +59,16 @@
         </view>
       </block>
     </view>
-  </view> -->
+  <!-- end my order -->
+  </view>
 
-  <!-- <view class='app-option'>
+  <view class='app-option'>
     <view class='app-option__body'>
       <view wx:for='{{ appOption }}' class="app-option__item">
         <i class="material-icons md-24 md-dark">{{ item.icon }}</i>
         <text class="app-option__text">{{ item.name }}</text>
       </view>
     </view>
-  </view> -->
+  </view>
 
 </view>

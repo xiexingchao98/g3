@@ -1,91 +1,30 @@
-:toc:
+# g3
 
-= G3 Project
+项目整体 UI 组件库：
 
-== 说明文档
+https://github.com/youzan/vant-weapp[Vant]
 
-=== Day2
+可供选择的 Icon 库：
 
-==== 基础部分
+https://www.iconfont.cn[阿里巴巴矢量图标]
 
-===== A
+https://material.io/tools/icons[Material Design Icon]
 
-目标
+https://ikonate.com/#content[Ikonate]
 
-. 确定页面设计风格
-. 实现程序底部 TabBar 和商品分类组件
+页面设计参考：
 
-实现介绍
+https://dribbble.com[Dribbble]
 
-*设计*
 
-页面整体使用极简风设计，色调主要呈现为白色和淡灰色，以灰色阴影为辅来区分内容边界。
+底部 Tabbar 暂定分成 3 个入口。
 
-图标主要采用 Material Design Icon （Google Material Design 系列），部分图标来自 Iconfont （阿里巴巴矢量图标库）。
+大致的页面组成为：
 
-图标和文字的默认颜色呈现为灰色与黑色之间，以确保整体色调柔和一致，同时提供良好的视觉体验。
-
-在平淡的色调基础上，使用紫色向淡紫色、橘红色向橙色等渐变效果，来突出购买、付款等按钮控件，在将交互控件以醒目的方式展示给用户的同时，完成了页面交互式控件重要性的分层。
-
-*控件*
-
-项目采用了 Vant UI 组件库（有赞的开源项目）来进行快速开发。
-
-底部 TabBar 使用 Vant TabBar 组件实现，参考小程序自定义 TabBar 规则，替换了小程序默认的 TabBar 。
-
-分类组件使用了 Vant Badge 和 Badge Group 组件，结合了自定义点击事件后，实现了分类切换的效果。
-
-*参阅*
-
-https://material.io/design/ - Material Design 介绍
-
-https://material.io/tools/icons - Material Icon 组件库
-
-https://www.iconfont.cn - 阿里巴巴矢量图标库
-
-https://youzan.github.io/vant-weapp/#/intro - Vant UI 组件库
-
-===== C
-
-目标
-
-. 组长使用 WebSocket 收集来自组员的数据
-
-实现介绍
-
-步骤：
-
-. 组长组员连接至同一 WebSocket 地址
-. 组员向服务端发送数据，成功发送后关闭连接
-. 服务端接收数据并暂存，记录组员身份信息
-. 组长向服务端发送收集数据请求，并提供身份 ID 供服务端验证
-. 服务端收到数据收集请求，对请求者身份进行验证，无误则返回暂存的数据
-. 组长收集到部分组员已发送的数据
-. 组长对服务端进行轮询，以确保收集到组员后续提交的数据
-. 组长确认已收集全部组员的数据，则关闭连接
-
-==== 高级部分
-
-===== C
-
-目标
-
-. 根据类别对商品进行展示
-
-实现介绍
-
-- 按类别显示商品
-
-给商品表增加 `category` 字段。切换分类时，每次从数据库中取出对应 `category` 的商品。
-
-- 按品牌来显示商品
-
-给商品表增加 `brand` 字段。展示某品牌的商品时，取出对应 `brand` 的所有商品。
-
-- 显示新品
-
-依照商品上架时间进行排序筛选，从而获得最新上架的部分商品。
-
-- 显示热门商品
-
-给商品增加 `hot` 字段，依照用户点击量等行为动态增加其值，展示时从数据库中取出按 `hot` 值降序排列的部分商品。
+. 首页
+. 肤质测试页
+. 整体分类页
+. 商品详情页
+. 购物车页
+. 结算页面
+. 我的
