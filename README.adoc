@@ -183,3 +183,105 @@ https://patents.google.com/patent/CN106529429A/zh - 肤质检测硕博论文
 - 显示热门商品
 
 给商品增加 `hot` 字段，依照用户点击量等行为动态增加其值，展示时从数据库中取出按 `hot` 值降序排列的部分商品。
+B.在小程序中调用各类手机传感器，本实例中调用光学摄像头
+    在微信小程序端调用摄像头需要用到微信提供的API
+    wx.createCameraContext
+    使用该方法创建一个CameraContext对象
+    在肤质识别的实例中我们主要使用takePhoto方法拍摄并存储照片 
+    takephoto中的需要注意的参数是
+        quality——根据需要调整图片质量
+        success——拍摄成功的回调参数
+        fail——拍摄失败的回调参数
+    我们需要在success的回调参数中拿到 res.tempImagePath
+        tempImagePath——照片文件在微信端的临时路径
+    然后在takePhoto的success回调函数中将拍摄的内容上传到服务器
+    如果失败向客户端显示拍摄失败字样（使用wx.showToast方法）
+    照片上传这个步骤需要使用到微信的API：wx.uploadFile
+    uploadFile方法中我们主要使用一下参数
+        url——上传服务器的地址
+        filePath——上传文件的路径（也就是我们拍摄照片的临时路径）
+        name——上传文件对应的key
+        success——上传成功的回调函数
+        fail——上传失败的回调函数
+    图片上传成功后我们需要向客户端显示上传成功的提示，并且进行跳转，跳转到肤质检查的结果页面。图片失败则向客户端显示拍摄失败字样（使用wx.showToast方法）
+    具体代码实现：
+        https://github.com/xiexingchao98/g3/blob/master/pages/skin-test/skin-test.js
+
+    
+高级实训内容
+    B.调用手机角度传感器，并计算人脸的轮廓，提示用户脸型是否摆正，距离是否合适
+    1.获取设备的方向信息
+        需要调用微信小程序中的设备方向API
+        为了在照相功能启动之后马上能获取设备的方向信息，必须在在肤质检查页面加载之后开始设备方向的监听
+        在对应页面的js文件中的OnShow中我们开启设备方向的监听 wx.startDeviceMotionListening
+        wx.startDeviceMotionListening的参数设置
+        interval——监听设备方向的频率 在该实例中我们使用normal
+        success——接口调用成功的回调函数
+        fail——接口调用失败的回调函数
+        wx.onDevieceMotionChange 该方法为监听设备方向变化事件，一旦设备方向发生变化则返回三个数据
+        res：
+            alpha——当 手机坐标 X/Y 和 地球 X/Y 重合时，绕着 Z 轴转动的夹角为 alpha，范围值为 [0, 2*PI)。逆时针转动为正。
+            beta——当手机坐标 Y/Z 和地球 Y/Z 重合时，绕着 X 轴转动的夹角为 beta。范围值为 [-1*PI, PI) 。顶部朝着地球表面转动为正。也有可能朝着用户为正。
+            gamma——当手机 X/Z 和地球 X/Z 重合时，绕着 Y 轴转动的夹角为 gamma。范围值为 [-1*PI/2, PI/2)。右边朝着地球表面转动为正。
+        需要根据这三个值来确定设备反向
+        参考资料：
+        https://blog.csdn.net/Panda_m/article/details/57515195
+        
+        该实例中主要判断手机是否垂直于地面，所以我们主要用到beta参数
+        当beta的值为-90时，手机正好正向垂直于地面，为了消除用户手部抖动的影响，将beta值设置在-75到-105的区间内。通过
+        beta的值是否超过这个区间来判断手机是否拿起。
+        客户端的显示使用wx.Toast
+        在判断用户拿起放正后关闭设备方向的监听wx.stopDeviceMotionChange
+    具体代码实现：
+        https://github.com/xiexingchao98/g3/blob/master/pages/skin-test/skin-test.js
+    2.计算脸部轮廓，判断距离远近
+        客户端：
+        在对应功能页面的js文件中另外写一个拍照上传的方法
+        使用setInterval()方法定时执行拍照上传任务
+        setInterval参数设置
+        function——要执行的函数
+        time——时间间隔
+        接受服务返回的json文件
+        通过里面的距离参数distance的值判断距离远近然后在客户端显示
+        服务器端：
+        使用thinkjs框架搭建一个接受图片上传的服务器
+        服务器端代码：
+                  async uploadAction(){
+                        var exec = require('child_process').spawnSync;
+                        var filename="select_1.py";
+                        var ret
+                        const file =this.file('image');
+                        const filepath=path.join(think.ROOT_PATH,`/www/static/image/upload/${file.name}`);
+                        think.mkdir(path.dirname(filepath));
+                        await rename(file.path,filepath);
+                        const spawn=exec('python',[filename,filepath]);
+                        ret=spawn.stdout.toString();
+                        unlink(filepath,(err)=>{});
+                        if (ret==null){
+                            console.log('api请求失败')
+                        };
+                        this.json(ret);
+                }
+        一旦服务器接收到客户端的图片，则马上创建一个子进程去调用一个python程序
+        调用python使用nodejs的child_process模块的spawnSync方法
+        spawnSync参数设置
+        详细参数使用见nodejs开发文档：http://nodejs.cn/api/child_process.html
+            python部分：
+                    使用python将图片上传到api（这里使用face++的人脸识别api）
+                    python调用api的代码见face++的API文档 https://console.faceplusplus.com.cn/documents/4888373
+                    在python中处理返回的json数据，提取人脸轮廓的坐标位置，根据人脸轮廓的宽度与上传照片的宽度之间的比例大小来判断人脸的距离是否合适，本实例中设置的人脸宽度与上传照片的比值区间为85%——55%，计算的比值在这个区间内的判断为距离合适，否则距离太远或者太近。
+                    返回的json格式
+                    {distance: -1|0|1}
+                    判断人脸是否摆正，根据API提供的参数headpose——人脸姿势分析
+                        人脸姿势分析结果。返回值包含以下属性，每个属性的值为一个 [-180, 180] 的浮点数，小数点后 6 位有效数字。单位为角度。
+                        pitch_angle：抬头角度
+                        roll_angle：旋转（平面旋转）角度
+                        yaw_angle：摇头角度
+                    三个角度在-10——10的角度区间内则说明人脸已经摆正
+                    返回的json格式
+                    {headpose:yes|no}
+
+        thinkjs接收子进程产生的json数据并返回给客户端
+        客户端通过解析json中的数据
+        根据distance和headpose中返回的值向用户展示脸部是否摆正和距离远近的结果
+
