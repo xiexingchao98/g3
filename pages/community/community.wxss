@@ -1,0 +1,23 @@
+.page {
+  padding: 12rpx 18rpx;
+}
+
+.message {
+  position: relative;
+}
+
+.message__red-circle {
+  position: absolute;
+  top: -5px;
+  left: 22px;
+  border-radius: 999px;
+  width: 40rpx;
+  height: 40rpx;
+  font-size: 6pt;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+  background: #c62828;
+  color: #fff;
+}

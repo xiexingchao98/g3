@@ -1,4 +1,5 @@
-// pages/classification/classification.js
+const app = getApp()
+
 Page({
 
   /**
@@ -20,23 +21,19 @@ Page({
         { icon: "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1563857794802&di=e06b676daf97aaca6c1d26a1069e0a5e&imgtype=0&src=http%3A%2F%2Fpic.makepolo.net%2Fnews%2Fallimg%2F20170104%2F1483528275169771.jpg ", text: "夏日清凉" },
         { icon: "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1563857794802&di=e06b676daf97aaca6c1d26a1069e0a5e&imgtype=0&src=http%3A%2F%2Fpic.makepolo.net%2Fnews%2Fallimg%2F20170104%2F1483528275169771.jpg ", text: "夏日清凉" }
       ]
-    ]
+    ],
+    categoryList: []
   },
   onChange(event) {
-    wx.showToast({
-      icon: 'none',
-      title: `切换至第${event.detail}项`
-    });
     this.setData({
       active:event.detail
     })
-    console.log(this.data)
   },
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-
+    this.getCategory()
   },
 
   /**
@@ -90,5 +87,14 @@ Page({
    */
   onShareAppMessage: function () {
 
+  },
+  getCategory() {
+    wx.request({
+      method: 'GET',
+      url: app.globalData.serverPath + '/database/category',
+      success: (res) => {
+        this.setData({ categoryList: res.data })
+      }
+    })
   }
 })
