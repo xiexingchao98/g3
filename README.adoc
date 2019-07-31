@@ -1,163 +1,341 @@
-# g3
+:toc:
+:imagesdir: ./images
 
-项目整体 UI 组件库：
+= G3 Project
 
-https://github.com/youzan/vant-weapp[Vant]
+== 说明文档
 
-可供选择的 Icon 库：
+=== Day2
 
-https://www.iconfont.cn[阿里巴巴矢量图标]
+==== 基础部分
 
-https://material.io/tools/icons[Material Design Icon]
+===== A
 
-https://ikonate.com/#content[Ikonate]
+目标
 
-页面设计参考：
+. 确定页面设计风格
+. 实现程序底部 TabBar 和商品分类组件
 
-https://dribbble.com[Dribbble]
+实现介绍
+
+*设计*
+
+页面整体使用极简风设计，色调主要呈现为白色和淡灰色，以灰色阴影为辅来区分内容边界。
+
+图标主要采用 Material Design Icon （Google Material Design 系列），部分图标来自 Iconfont （阿里巴巴矢量图标库）。
+
+图标和文字的默认颜色呈现为灰色与黑色之间，以确保整体色调柔和一致，同时提供良好的视觉体验。
+
+在平淡的色调基础上，使用紫色向淡紫色、橘红色向橙色等渐变效果，来突出购买、付款等按钮控件，在将交互控件以醒目的方式展示给用户的同时，完成了页面交互式控件重要性的分层。
+
+*控件*
+
+项目采用了 Vant UI 组件库（有赞的开源项目）来进行快速开发。
+
+底部 TabBar 使用 Vant TabBar 组件实现，参考小程序自定义 TabBar 规则，替换了小程序默认的 TabBar 。
+
+分类组件使用了 Vant Badge 和 Badge Group 组件，结合了自定义点击事件后，实现了分类切换的效果。
+
+*参阅*
+
+https://material.io/design/ - Material Design 介绍
+
+https://material.io/tools/icons - Material Icon 组件库
+
+https://www.iconfont.cn - 阿里巴巴矢量图标库
+
+https://youzan.github.io/vant-weapp/#/intro - Vant UI 组件库
+
+===== B
+
+目标
+
+. 在小程序中调用光学摄像头、手机传感器
+
+实现介绍
+
+在微信小程序端使用 `wx.createCameraContext` 调用摄像头，该方法创建一个 `CameraContext` 对象。
+
+在肤质识别的实例中我们主要使用 `takePhoto()` 方法拍摄并存储照片。
+
+`takePhoto()` 中的需要注意的参数是
+
+....
+quality // 根据需要调整图片质量
+success // 拍摄成功的回调参数
+fail //拍摄失败的回调参数
+....
+
+我们需要在 `success` 的回调参数中拿到 `res.tempImagePath` 。
+
+`tempImagePath` 是照片文件在微信端的临时路径。
+
+然后在 `takePhoto` 的 `success` 回调函数中将拍摄的内容上传到服务器。
+
+如果失败向客户端显示拍摄失败字样（使用 `wx.showToast` 方法）。
+
+照片上传这个步骤需要使用到微信的 API ：`wx.uploadFile` 
+`uploadFile` 方法中我们主要使用以下参数
+
+....
+url // 上传服务器的地址
+filePath // 上传文件的路径（也就是我们拍摄照片的临时路径）
+name // 上传文件对应的key
+success // 上传成功的回调函数
+fail // 上传失败的回调函数
+....
+
+图片上传成功后我们需要向客户端显示上传成功的提示，并且进行跳转，跳转到肤质检查的结果页面。图片失败则向客户端显示拍摄失败字样（使用 `wx.showToast` 方法）。
+
+代码实现：
+
+https://github.com/xiexingchao98/g3/blob/master/pages/skin-test/skin-test.js
 
 
-底部 Tabbar 暂定分成 3 个入口。
+===== C
 
-大致的页面组成为：
+目标
 
-. 首页
-. 肤质测试页
-. 整体分类页
-. 商品详情页
-. 购物车页
-. 结算页面
-. 我的
+. 组长使用 WebSocket 收集来自组员的数据
 
-=== 陈鑫文档
-1，	day2实训基本内容：
+实现介绍
 
-A，	第一天构建主要的tab控件、分类控 件，设计基本的色调及展示理念，能够 在设计文档中进行整理； 
+步骤：
 
-a:目标分析
+. 组长组员连接至同一 WebSocket 地址
+. 组员向服务端发送数据，成功发送后关闭连接
+. 服务端接收数据并暂存，记录组员身份信息
+. 组长向服务端发送收集数据请求，并提供身份 ID 供服务端验证
+. 服务端收到数据收集请求，对请求者身份进行验证，无误则返回暂存的数据
+. 组长收集到部分组员已发送的数据
+. 组长对服务端进行轮询，以确保收集到组员后续提交的数据
+. 组长确认已收集全部组员的数据，则关闭连接
 
+==== 高级部分
 
+===== A
 
-b:步骤
+目标
 
-c:相关参考资料
+. 对所存储的基本图像，进行光学校正 ，具体指增加/减少曝光度、白平衡等
 
-B，	在小程序中调用各类手机传感器，本实例中调用光学摄像头；
+实现介绍
 
-a:目标分析
+基于 OpenCV 的图像的白平衡处理机制，用来解决客户在环境不太友好的情况下，最大可能的还原真实的脸部特征和肤色。 在参考以下资料以后，我采用了“完美世界反射和灰度世界假设法”来进行图像的白平衡修正。
 
-b:步骤
+*算法原理*
 
-c:相关参考资料
- 
-C，学习在小程序界面中对历史数据进行 存储。小组长能够设计一个第三方后台 的远程程序（基于websocket），对组员 的小程序数据库进行远程管理； 
+灰度世界算法假定图片具有大量的色彩变化，于是 RGB 分量趋近于同一个值 K 。一般令 K = (Raver + Gaver + Baver) / 3,其中 Raver ，Gaver ，Baver 分别表示红、 绿、 蓝三个通道的平均值。第二步是计算各通道的增益，如 Kr = K / Raver ，最后图像中每一个像素点 Rnew = R * Kr 。意思大概就是如果某个通道平均强度大于三通道的平均强度，就令这个通道的整体强度按比例降低，反之亦然。
 
-a:目标分析
+另一个算法完美反射算法假设图片中最亮的点就是一面镜子，完美地反射了外部光照，并根据这些白点进行白平衡。它定义为 R + G + B 的最大值。让这些白点的 RGB 三个通道按照比例拉伸到 255，并将其他的点的三个通道按照同样比例拉伸，超过 255 的设为 255 ，是一个归一化过程。OpenCV 中的完美反射大概是将白点的比例设为 1% ，改了个名字叫 SimpleWB ，这样用户就不用调参数了。
 
-b:步骤
+*算法实现*
 
-c:相关参考资料
+首先，引用 OpenCV、Matplotlib 和 Numpy 模块
 
-2，	实训高级内容： 
+由于图像处理矩阵对传入的图片的大小和像素的多少在进行处理的时候会导致时间的长短不一样。由于我们这个在用户上传图像以后会要求马上出结果，所以先要进行一个图像的大小设置和压缩。在这里我把图片设置成了（300, 480）的规格大小。
 
-A，	对所存储的基本图像，进行光学校正 ，具体指增加/减少曝光度、白平衡等；
-
-a:目标分析
-
-基于opencv的图像的白平衡处理机制，用来解决客户在环境不太友好的情况下，最大可能的还原真实的脸部特征和肤色。 在参考以下资料以后，我采用了“完美世界反射和灰度世界假设法”来进行图像的白平衡修正。
-
-b:步骤
-
-1.算法原理
-
-灰度世界算法假定图片具有大量的色彩变化，于是RGB分量趋近于同一个值K。一般令 K = (Raver+Gaver+Baver)/3,其中Raver,Gaver,Baver分别表示红、 绿、 蓝三个通道的平均值。第二步是计算各通道的增益，如Kr=K/Raver，最后图像中每一个像素点Rnew = R * Kr。意思大概就是如果某个通道平均强度大于三通道的平均强度，就令这个通道的整体强度按比例降低，反之亦然。
-
-另一个算法完美反射算法假设图片中最亮的点就是一面镜子，完美地反射了外部光照，并根据这些白点进行白平衡。它定义为R+G+B的最大值。让这些白点的RGB三个通道按照比例拉伸到255，并将其他的点的三个通道按照同样比例拉伸，超过255的设为255，是一个归一化过程。opencv中的完美反射大概是将白点的比例设为1%，改了个名字叫simpleWB，这样用户就不用调参数了。
-
-2.算法实现：
-
-首先:引用opencv、matplotlib和numpy模块
-
-1.由于图像处理矩阵对传入的图片的大小和像素的多少在进行处理的时候会导致时间的长短不一样。由于我们这个在用户上传图像以后会要求马上出结果，所以先要进行一个图像的大小设置和压缩。在这里我把图片设置成了（300,480）的规格大小。
-
+[source, python]
+----
 res = cv2.imread(r'images\4.jpg')
 img=cv2.resize(res,(300,480),interpolation=cv2.INTER_CUBIC)
+----
 
-2.核心代码
+*核心代码*
 
-    m, n, t = img.shape
-    print(b.shape)
-    sum = np.zeros(b.shape)
-    for i in range(m):
-        for j in range(n):
-            sum[i][j] = int(b[i][j]) + int(g[i][j]) + int(r[i][j])
-    hists, bins = np.histogram(sum.flatten(), 766, [0, 766])
-    Y = 765
-    num, key = 0, 0
-    while Y >= 0:
-        num += hists[Y]
-        if num > m * n * 0.01 / 100:
-            key = Y
-            break
-        Y = Y - 1
+[source, python]
+----
+m, n, t = img.shape
+print(b.shape)
+sum = np.zeros(b.shape)
+for i in range(m):
+    for j in range(n):
+        sum[i][j] = int(b[i][j]) + int(g[i][j]) + int(r[i][j])
+hists, bins = np.histogram(sum.flatten(), 766, [0, 766])
+Y = 765
+num, key = 0, 0
+while Y >= 0:
+    num += hists[Y]
+    if num > m * n * 0.01 / 100:
+        key = Y
+        break
+    Y = Y - 1
 
-    sum_b, sum_g, sum_r = 0, 0, 0
-    time = 0
-    for i in range(m):
-        for j in range(n):
-            if sum[i][j] >= Y:
-                sum_b += b[i][j]
-                sum_g += g[i][j]
-                sum_r += r[i][j]
-                time = time + 1
+sum_b, sum_g, sum_r = 0, 0, 0
+time = 0
+for i in range(m):
+    for j in range(n):
+        if sum[i][j] >= Y:
+            sum_b += b[i][j]
+            sum_g += g[i][j]
+            sum_r += r[i][j]
+            time = time + 1
 
-    avg_b = sum_b / time
-    avg_g = sum_g / time
-    avg_r = sum_r / time
+avg_b = sum_b / time
+avg_g = sum_g / time
+avg_r = sum_r / time
 
-    for i in range(m):
-        for j in range(n):
-            b[i][j] = b[i][j] * 255 / avg_b
-            g[i][j] = g[i][j] * 255 / avg_g
-            r[i][j] = r[i][j] * 255 / avg_r
-            if b[i][j] > 255:
-                b[i][j] = 255
-            if b[i][j] < 0:
-                b[i][j] = 0
-            if g[i][j] > 255:
-                g[i][j] = 255
-            if g[i][j] < 0:
-                g[i][j] = 0
-            if r[i][j] > 255:
-                r[i][j] = 255
-            if r[i][j] < 0:
-                r[i][j] = 0
+for i in range(m):
+    for j in range(n):
+        b[i][j] = b[i][j] * 255 / avg_b
+        g[i][j] = g[i][j] * 255 / avg_g
+        r[i][j] = r[i][j] * 255 / avg_r
+        if b[i][j] > 255:
+            b[i][j] = 255
+        if b[i][j] < 0:
+            b[i][j] = 0
+        if g[i][j] > 255:
+            g[i][j] = 255
+        if g[i][j] < 0:
+            g[i][j] = 0
+        if r[i][j] > 255:
+            r[i][j] = 255
+        if r[i][j] < 0:
+            r[i][j] = 0
 
-    img_0 = cv2.merge([b, g, r])
-    cv2.imshow('xiutu', img_0)
+img_0 = cv2.merge([b, g, r])
+cv2.imshow('xiutu', img_0)
+----
 
 实验结果：
 
+image::opencv-process-compare.png[处理效果对比图]
+
+*参阅*
+
+https://blog.csdn.net/shadow_guo/article/details/43602051 - 肤色检测
+https://patents.google.com/patent/CN106529429A/zh - 肤质检测硕博论文
+
+===== B
+
+目标
+
+. 调用手机角度传感器，并计算人脸的轮廓，提示用户脸型是否摆正，距离是否合适
 
 
+实现介绍
 
-c:相关参考资料
+步骤
 
-https://blog.csdn.net/shadow_guo/article/details/43602051 肤色检测
-https://patents.google.com/patent/CN106529429A/zh 肤质检测硕博论文
+1.获取设备的方向信息
 
-B，调用手机角度传感器，并且计算人脸 的轮廓，提示用户脸型是否摆正，距离 是否合适；
+使用微信小程序中的设备方向 API 。为了在照相功能启动之后马上能获取设备的方向信息，必须在在肤质检查页面加载之后开始设备方向的监听。
 
-a:目标分析
+在对应页面的 `js` 文件中的 `OnShow` 中我们开启设备方向的监听。
 
-b:步骤
+`wx.startDeviceMotionListening` 和 `wx.startDeviceMotionListening` 的参数设置
 
-c:相关参考资料
+....
+interval——监听设备方向的频率 在该实例中我们使用normal
+success——接口调用成功的回调函数
+fail——接口调用失败的回调函数
+wx.onDevieceMotionChange 该方法为监听设备方向变化事件，一旦设备方向发生变化则返回三个数据
+res：
+    alpha——当 手机坐标 X/Y 和 地球 X/Y 重合时，绕着 Z 轴转动的夹角为 alpha，范围值为 [0, 2*PI)。逆时针转动为正。
+    beta——当手机坐标 Y/Z 和地球 Y/Z 重合时，绕着 X 轴转动的夹角为 beta。范围值为 [-1*PI, PI) 。顶部朝着地球表面转动为正。也有可能朝着用户为正。
+    gamma——当手机 X/Z 和地球 X/Z 重合时，绕着 Y 轴转动的夹角为 gamma。范围值为 [-1*PI/2, PI/2)。右边朝着地球表面转动为正。
+需要根据这三个值来确定设备反向
+....
 
-C，能够调用控件，完成对不同产品类（ SKU）相关图片的展示；（点击品牌、热 门、新品等按键）
+参阅
 
-a:目标分析
+https://blog.csdn.net/Panda_m/article/details/57515195
 
-b:步骤
+该实例中主要判断手机是否垂直于地面，所以我们主要用到 beta 参数
+当 beta 的值为 -90 时，手机正好正向垂直于地面，为了消除用户手部抖动的影响，将 beta 值设置在 -75 到 -105 的区间内。通过
+ beta 的值是否超过这个区间来判断手机是否拿起。
+客户端的显示使用 `wx.Toast`
+在判断用户拿起放正后关闭设备方向的监听 `wx.stopDeviceMotionChange`
 
-c:相关参考资料
+具体代码实现：
+
+https://github.com/xiexingchao98/g3/blob/master/pages/skin-test/skin-test.js
+
+
+2.计算脸部轮廓，判断距离远近
+
+客户端：
+在对应功能页面的js文件中另外写一个拍照上传的方法
+使用setInterval()方法定时执行拍照上传任务
+setInterval参数设置
+function——要执行的函数
+time——时间间隔
+接受服务返回的json文件
+通过里面的距离参数distance的值判断距离远近然后在客户端显示
+服务器端：
+使用thinkjs框架搭建一个接受图片上传的服务器
+服务器端代码：
+
+[source, js]
+----
+async uploadAction(){
+    var exec = require('child_process').spawnSync;
+    var filename="select_1.py";
+    var ret
+    const file =this.file('image');
+    const filepath=path.join(think.ROOT_PATH,`/www/static/image/upload/${file.name}`);
+    think.mkdir(path.dirname(filepath));
+    await rename(file.path,filepath);
+    const spawn=exec('python',[filename,filepath]);
+    ret=spawn.stdout.toString();
+    unlink(filepath,(err)=>{});
+    if (ret==null){
+        console.log('api请求失败')
+    };
+    this.json(ret);
+}
+----
+
+一旦服务器接收到客户端的图片，则马上创建一个子进程去调用一个python程序
+调用python使用nodejs的child_process模块的spawnSync方法
+spawnSync参数设置。
+
+详细参数使用见nodejs开发文档：
+
+http://nodejs.cn/api/child_process.html
+
+*后端 Python 处理部分*
+
+使用python将图片上传到api（这里使用face++的人脸识别api）
+
+python调用api的代码见face++的API文档
+
+https://console.faceplusplus.com.cn/documents/4888373
+
+在python中处理返回的json数据，提取人脸轮廓的坐标位置，根据人脸轮廓的宽度与上传照片的宽度之间的比例大小来判断人脸的距离是否合适，本实例中设置的人脸宽度与上传照片的比值区间为85%——55%，计算的比值在这个区间内的判断为距离合适，否则距离太远或者太近。返回的json格式 `{distance: -1|0|1}` 。
+
+判断人脸是否摆正，根据API提供的参数headpose——人脸姿势分析人脸姿势分析结果。返回值包含以下属性，每个属性的值为一个 [-180, 180] 的浮点数，小数点后 6 位有效数字。单位为角度。
+
+    pitch_angle：抬头角度
+    roll_angle：旋转（平面旋转）角度
+    yaw_angle：摇头角度
+
+三个角度在-10——10的角度区间内则说明人脸已经摆正，返回的json格式 `{headpose:yes|no}` 。
+
+thinkjs接收子进程产生的json数据并返回给客户端。
+
+客户端通过解析json中的数据，根据distance和headpose中返回的值向用户展示脸部是否摆正和距离远近的结果
+
+===== C
+
+目标
+
+. 根据类别对商品进行展示
+
+实现介绍
+
+- 按类别显示商品
+
+给商品表增加 `category` 字段。切换分类时，每次从数据库中取出对应 `category` 的商品。
+
+- 按品牌来显示商品
+
+给商品表增加 `brand` 字段。展示某品牌的商品时，取出对应 `brand` 的所有商品。
+
+- 显示新品
+
+依照商品上架时间进行排序筛选，从而获得最新上架的部分商品。
+
+- 显示热门商品
+
+给商品增加 `hot` 字段，依照用户点击量等行为动态增加其值，展示时从数据库中取出按 `hot` 值降序排列的部分商品。

@@ -1,14 +1,20 @@
 {
   "pages": [
+    "pages/community/community",
     "pages/index/index",
+    "pages/post/post",
+    "pages/community/edit-post",
+    "pages/my/my",
+    "pages/scan/scan",
+    "pages/admin/console/console",
+    "pages/delivery-detail/delivery-detail",
+    "pages/classify/classify",
     "pages/test-result/test-result",
     "pages/skin-test/skin-test",
-    "pages/my/my",
     "pages/pay/pay",
     "pages/commodity/commodity",
     "pages/logs/logs",
-    "pages/cart/cart",
-    "pages/classification/classification"
+    "pages/cart/cart"
   ],
   "window": {
     "backgroundTextStyle": "light",
@@ -30,18 +36,30 @@
         "pagePath": "pages/my/my"
       },
       {
-        "pagePath": "pages/classification/classification"
+        "pagePath": "pages/classify/classify"
+      },
+      {
+        "pagePath": "pages/community/community"
       }
     ]
   },
   "usingComponents": {
-    "van-button": "vant-weapp/dist/button/index",
-    "van-search": "vant-weapp/dist/search/index",
-    "van-tabbar": "vant-weapp/dist/tabbar/index",
-    "van-tabbar-item": "vant-weapp/dist/tabbar-item/index",
-    "van-icon": "vant-weapp/dist/icon/index",
-    "van-tabs": "vant-weapp/dist/tabs/index",
-    "van-tab": "vant-weapp/dist/tab/index",
-    "van-card": "vant-weapp/dist/card/index"
+    "van-button": "/miniprogram_npm/vant-weapp/button/index",
+    "van-search": "/miniprogram_npm/vant-weapp/search/index",
+    "van-tabbar": "/miniprogram_npm/vant-weapp/tabbar/index",
+    "van-tabbar-item": "/miniprogram_npm/vant-weapp/tabbar-item/index",
+    "van-icon": "/miniprogram_npm/vant-weapp/icon/index",
+    "van-tabs": "/miniprogram_npm/vant-weapp/tabs/index",
+    "van-tab": "/miniprogram_npm/vant-weapp/tab/index",
+    "van-card": "/miniprogram_npm/vant-weapp/card/index",
+    "van-steps": "/miniprogram_npm/vant-weapp/steps/index",
+    "van-notice-bar": "/miniprogram_npm/vant-weapp/notice-bar/index",
+    "van-nav-bar": "/miniprogram_npm/vant-weapp/nav-bar/index",
+    "van-submit-bar": "/miniprogram_npm/vant-weapp/submit-bar/index",
+    "van-stepper": "/miniprogram_npm/vant-weapp/stepper/index",
+    "van-checkbox": "/miniprogram_npm/vant-weapp/checkbox/index",
+    "van-checkbox-group": "/miniprogram_npm/vant-weapp/checkbox-group/index",
+    "van-badge": "/miniprogram_npm/vant-weapp/badge/index",
+    "van-badge-group": "/miniprogram_npm/vant-weapp/badge-group/index"
   }
 }

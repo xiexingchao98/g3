@@ -62,7 +62,7 @@ Page({
   onShow: function () {
     if (typeof this.getTabBar === 'function' && this.getTabBar()) {
       this.getTabBar().setData({
-        active: 3
+        active: 2
       })
     }
   },
@@ -102,7 +102,9 @@ Page({
     
   },
   doLogin (e) {
+    console.log(e)
     if (e.detail.userInfo) {
+      wx.showLoading({ title: '登录中' })
       wx.login({
         success: (res) => {
           console.log(res.code)
@@ -110,11 +112,18 @@ Page({
             method: 'POST',
             url: app.globalData.serverPath + '/database/oauth/login/weixin',
             data: {
-              code: res.code
+              code: res.code,
+              userInfo: e.detail.userInfo
             },
             success: (res) => {
               console.log(res)
               this.getUserInfo()
+
+              wx.setStorage({
+                key: app.globalData.storageKey,
+                data: res.data.data
+              })
+
               wx.showToast({ title: '登录成功' })
             }
           })

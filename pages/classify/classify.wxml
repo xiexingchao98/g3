@@ -1,13 +1,6 @@
 <view class='body'>
 <van-badge-group active="{{ active }}" bind:change="onChange">
-  <van-badge title="卸妆" />
-  <van-badge title="洁面" info="8" />
-  <van-badge title="护肤水" info="99" />
-  <van-badge title="眼部" info="99+" />
-  <van-badge title="精华" info="1"/>
-  <van-badge title="乳液面霜" info="1"/>
-  <van-badge title="防嗮" info="1"/>
-  <van-badge title="面膜" info="1"/>
+  <van-badge wx:for='{{ categoryList }}' title="{{ item.category_name }}" />
 </van-badge-group>
 <view class='showpage'>  
     <image class='ads' mode='aspectFill' src="{{ads[active]}}"></image>
