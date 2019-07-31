@@ -109,7 +109,6 @@ Page({
                 wx.showToast({ title: '上传失败', icon: 'none'})
               }
             })
-            setTimeout(() => {wx.showToast({ title: '上传失败' })}, 25000)
           }
         })
       },

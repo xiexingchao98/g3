@@ -1,0 +1,7 @@
+.step {
+  display: flex;
+}
+
+.step__timestamp {
+  font-size: 9pt;
+}

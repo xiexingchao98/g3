@@ -11,27 +11,21 @@
         <view class="test-result__header">{{ wordMapping[resItem.type] }}</view>
 
         <view class="test-result__body">
-          <block wx:if="{{ resItem.isDetailArray }}">
-            <view class='test-result__detail' wx:for='{{ resItem.detail }}' wx:for-item='detail'>
-              <view wx:if='{{ detail.problem }}' class="detail__problem">{{ wordMapping[detail.problem] }}</view>
-              <view class="detail__status">{{ wordMapping[detail.status] }}</view>
-            </view>
-          </block>
-
-          <block wx:else>
-            <view class="test-result__detail">
-              <view wx:if='{{ resItem.detail.problem }}' class="detail__problem">{{ wordMapping[resItem.detail.problem] }}</view>
-              <view class="detail__status">{{ wordMapping[resItem.detail.status] }}</view>
-            </view>
-          </block>
+          <view class='test-result__detail' wx:for='{{ resItem.detail }}' wx:for-item='detail'>
+            <view wx:if='{{ detail.problem }}' class="detail__problem">{{ wordMapping[detail.problem] }}</view>
+            <view class="detail__status">{{ wordMapping[detail.status] }}</view>
+          </view>
         </view>
-
 
       </view>
     </view>
 
     <!-- 个性化推荐 -->
     <view class="personalized-recommend">
+      <h2 class="title title_size-m title_has-icon" style="padding: 20rpx">
+        <i class="material-icons md-24 md-dark">star</i>
+        <text class='title__text'>根据测试结果为您推荐</text>
+      </h2>
       <van-tabs active='{{ active }}' sticky swipeable>
         <van-tab wx:for='{{ categoryList }}' title='{{ item.category_name }}'>
           <view class="commodity-wrapper commodity-wrapper_theme-primary">
