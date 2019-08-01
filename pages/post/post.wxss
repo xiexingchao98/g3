@@ -1,6 +1,14 @@
 .post__header {
   padding: 12rpx;
 }
+
+.post__content,
+.comment__content {
+  margin: 24rpx 0;
+  font-size: 10pt;
+  border-left: 3px solid lightgray;
+  padding-left: 18rpx;
+}
 .comment-list {
   margin-top: 36rpx;
   padding: 12rpx;

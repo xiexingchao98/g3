@@ -3,6 +3,8 @@
 
 = G3 Project
 
+link:https://whatdoyoudo.club/doc/api.html[API]
+
 == 说明文档
 
 === Day2

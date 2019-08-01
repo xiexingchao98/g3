@@ -1,19 +1,19 @@
-const app = getApp()
-
+// pages/community/unread-message.js
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
-
+    unreadMessageList: []
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-
+    let unreadMessageList = wx.getStorageSync('unreadMessageList');
+    this.setData({ unreadMessageList: unreadMessageList })
   },
 
   /**
@@ -64,23 +64,18 @@ Page({
   onShareAppMessage: function () {
 
   },
-  doReleaseNewPost(e) {
-    let formData = e.detail.value
-    console.log(formData)
-    wx.request({
-      method: 'POST',
-      url: app.globalData.serverPath + '/database/post/new',
-      data: {
-        storage: wx.getStorageSync(app.globalData.storageKey),
-        data: formData
-      },
-      success: (res) => {
-        wx.showToast({ title: '发布成功' })
-        setTimeout(() => {wx.navigateBack({ delta: 1 })}, 1500)
+  markAsRead(e) {
+    let commentId = e.currentTarget.dataset.commentId
+    let messageList = this.data.unreadMessageList
+    for (let index in messageList) {
+      if (messageList[index].comment_id == commentId) {
+        messageList[index].unread = false
       }
+    }
+    this.setData({ unreadMessageList: messageList })
+    wx.setStorage({
+      key: 'unreadMessageList',
+      data: messageList
     })
-  },
-  doBack() {
-    wx.navigateBack({ delta: 1 })
   }
 })

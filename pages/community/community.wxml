@@ -1,9 +1,9 @@
 <view class="page">
   <view class="page__hd" style="display: flex; justify-content: end; border-bottom: 1px dotted #eee">
-    <view class="message" style="position: relative">
+    <navigator url='/pages/community/unread-message' class="message" style="position: relative">
       <i class='material-icons md-24 md-dark'>markunread</i>
       <text class="message__red-circle">{{ unreadMessageCount }}</text>
-    </view>
+    </navigator>
   </view>
   <view class="page__bd" style="margin: 48rpx 0">
     <navigator wx:for='{{ postList }}' url='/pages/post/post?id={{ item.post_id }}' class="post-preview">
@@ -17,7 +17,7 @@
       </view>
     </navigator>
   </view>
-  <view class="buttons">
+  <view class="buttons" style="position: fixed; bottom: 50px; left: 0">
     <view class="button button_theme-primary button_size-m" hover-class="button_theme-primary_active" bind:tap='showReleaseNewPostPanel'>
       <i class="material-icons md-24">add</i>
       <text>发布</text>

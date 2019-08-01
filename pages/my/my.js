@@ -26,7 +26,8 @@ Page({
         text:'退款/售后'
       }
     ],
-    appOption: [{name: '设置', icon: 'settings'}, {name: '反馈', icon: 'feedback'},{name: '帮助', icon: 'help'}],
+    // {name: '设置', icon: 'settings'}, {name: '反馈', icon: 'feedback'},{name: '帮助', icon: 'help'}, 
+    appOption: [{name:'清除缓存', icon: 'delete_forever', event: 'clearStorage'}],
     userInfo: {},
     following: 8,
     follower: '12.8K',
@@ -141,6 +142,13 @@ Page({
           isLogged: true,
           userInfo: res.userInfo
         })
+      }
+    })
+  },
+  clearStorage() {
+    wx.clearStorage({
+      success() {
+        wx.showToast({ title: '清除缓存成功' })
       }
     })
   }

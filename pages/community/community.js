@@ -36,6 +36,12 @@ Page({
       })
     }
     this.getIndexPost()
+    let unreadMessageList = wx.getStorageSync('unreadMessageList')
+    if (!unreadMessageList)
+      unreadMessageList = []
+    this.setData({ unreadMessageList: unreadMessageList })
+    let unreadMessageCount = this.countUnreadMessage(unreadMessageList)
+    this.setData({ unreadMessageCount: unreadMessageCount })
   },
 
   /**
@@ -102,7 +108,6 @@ Page({
                 storage: wx.getStorageSync(app.globalData.storageKey)
               }
             }
-            console.log(data)
             wx.sendSocketMessage({
               data: JSON.stringify(data),
               fail: (err) => {
@@ -115,15 +120,42 @@ Page({
             let data = JSON.parse(res.data)
             if (data.event == 'readMessage' && data.data != 0) {
               let unreadMessageList = this.data.unreadMessageList
-              unreadMessageList.push(data.data)
+              console.log(data.data)
+              unreadMessageList = unreadMessageList.concat(data.data)
+              console.log(unreadMessageList)
               this.setData({
                 unreadMessageList: unreadMessageList,
-                unreadMessageCount: unreadMessageList.length
+                unreadMessageCount: this.data.unreadMessageCount + data.data.length
+              })
+              wx.setStorage({
+                key: 'unreadMessageList',
+                data: unreadMessageList
               })
             }
           })
         }))
       }
     })
-  }
+  },
+  getUnreadMessageCount() {
+    let messageList = this.data.unreadMessageList
+    let ret = 0
+    for (let message in messageList) {
+      if (message.unread == true) {
+        ++ret
+      }
+    }
+    console.log('unread count: ', ret)
+    return ret
+  },
+  countUnreadMessage(messageList) {
+    let ret = 0
+    for (let index in messageList) {
+      if (messageList[index].unread == true) {
+        ++ret
+      }
+    }
+    console.log('unread count: ', ret)
+    return ret
+  }  
 })

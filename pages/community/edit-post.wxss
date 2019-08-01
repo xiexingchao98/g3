@@ -1,1 +1,5 @@
-/* pages/community/edit-post.wxss */
+form {
+  display: flex;
+  flex-direction: column;
+  padding: 24rpx;
+}
