@@ -14,7 +14,8 @@
     "pages/pay/pay",
     "pages/commodity/commodity",
     "pages/logs/logs",
-    "pages/cart/cart"
+    "pages/cart/cart",
+    "pages/community/unread-message"
   ],
   "window": {
     "backgroundTextStyle": "light",

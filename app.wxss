@@ -98,6 +98,12 @@ page {
   background: #fff;
 }
 
+.button_theme-light_active {
+  color: #000;
+  border: 1px solid #ececec;
+  background: #ececec;
+}
+
 .button_theme-blue {
   color: #1e88e5;
   background: #fff;
@@ -278,7 +284,7 @@ page {
 .post-preview {
   background: #fff;
   padding: 24rpx;
-  box-shadow: 2rpx 8rpx 24rpx -4rpx lightgray;
+  box-shadow: 4rpx 8rpx 24rpx -3rpx lightgray;
   margin-bottom: 24rpx;
   position: relative;
 }
@@ -309,6 +315,15 @@ page {
   margin-right: 8rpx;
 }
 
+.post__owner-name {
+  font-size: 9pt;
+}
+
+.post__owner-name::before {
+  content: '发帖人';
+  margin-right: 18rpx;
+}
+
 .comment {
   padding: 12rpx 24rpx 24rpx 24rpx;
   margin: 24rpx 0;
@@ -336,8 +351,9 @@ page {
 }
 
 .input {
-  border: 1px solid lightgray;
+  border: 1px solid #e5e5e5;
   padding: 6rpx 8rpx;
+  border-radius: 10rpx;
 }
 
 .input_style-inline {
@@ -345,8 +361,10 @@ page {
 }
 
 .textarea {
-  border: 1px solid lightgray;
+  width: auto;
+  border: 1px solid #e5e5e5;
   padding: 12rpx;
+  border-radius: 10rpx;
 }
 
 button {
@@ -357,5 +375,9 @@ button {
   border-radius: none;
   background-color: none;
   margin: none;
+  border: none;
+}
+
+button::after {
   border: none;
 }

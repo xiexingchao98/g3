@@ -18,7 +18,7 @@ Page({
     this.setData({ post_id: options.id })
     wx.request({
       method: 'GET',
-      url: app.globalData.serverPath + '/database/post/viewDetail?post_id=' + this.data.post_id,
+      url: app.globalData.serverPath + '/database/post/viewDetail?id=' + this.data.post_id,
       success: (res) => {
         this.setData({ post: res.data })
       }
@@ -97,7 +97,8 @@ Page({
                 storage: wx.getStorageSync(app.globalData.storageKey),
                 message: {
                   comment_id: comment_id,
-                  post_id: this.data.post_id
+                  post_id: this.data.post_id,
+                  unread: true
                 }
               }
             }
