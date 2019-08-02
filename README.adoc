@@ -3,6 +3,8 @@
 
 = G3 Project
 
+link:https://whatdoyoudo.club/doc/api.html[API]
+
 == 说明文档
 
 === Day2
@@ -339,3 +341,71 @@ thinkjs接收子进程产生的json数据并返回给客户端。
 - 显示热门商品
 
 给商品增加 `hot` 字段，依照用户点击量等行为动态增加其值，展示时从数据库中取出按 `hot` 值降序排列的部分商品。
+
+Day3
+1.实训基本内容
+    A.完成对肤质的判定函数调用，返回相关的调用结果
+        本实例中使用宜远智能的API
+        https://www.yiyuan.ai/
+        python中的如何获取API返回的json，可以查看官方文档 https://api.yimei.ai/apimgr/static/help.html
+        本实例中只调用了三个测试项目，肤色、水分和皱纹
+        API调用使用python实现
+        在python中主要做对于json 数据的解析
+        这里需要用到python自带的json库
+        将json格式的数据转换为python的字典形式
+        根据key值获取对应的数据
+        我们需要拿的三个参数是color moisture wrinkle
+        根据其返回的score我们设置对应的等级good normal bad
+        并且提供对应推荐商品的标签号solution
+        最后返回json格式的数据
+
+[source, js]
+====
+[
+    {   
+        "type"："wrinkle"，
+        "detail":[{"status":"lightly","problem":"eyecorner","solution":6},
+        {"status":"none","problem":"crowfeet","solution":6}]
+    },
+    {   
+        "type":"moisture",
+        "detail":[{"status":"good"}]
+    },
+    {
+        "type":"color",
+        "detail":[{"status":color}]
+    }
+]
+====
+
+爬虫部分：使用了python的scrapy框架爬取数据
+    1.使用pip命令安装scrapy库
+    pip install -y scrapy
+    scrapy库的使用方法：https://doc.scrapy.org/en/latest/
+    2.本实例中爬取的数据为聚美优品保湿类商品前10页的商品数据
+    具体代码如下：
+[source, python]
+====
+class MakeupSpider(scrapy.Spider):
+    name='makeup'
+    allowed_domains=['www.search.jumei.com']
+    def start_requests(self):
+        searchname="保湿"
+        url='http://search.jumei.com/?filter=0-11-{0}&search={1}'
+        self.log('hello')
+        for i in range(1,5):
+            yield scrapy.Request(url=url.format(i,searchname),callback=self.parse)
+    def parse(self,response):
+        for item in response.css('li.item'):
+            ret={}
+            name=item.css('div.s_l_name a::text').get()
+            image=item.css('div.s_l_pic img::attr(src)').get()
+            price=item.css('div.s_l_view_bg span::text').get()
+            nameret=name.strip()
+            nameret=nameret.replace('\"','')
+            nameret=nameret.replace('\n','')
+            ret=",{"+"\""+"commodity_name\":"+"\""+nameret+"\""+","+"\"commodity_price\":"+"\""+price+"\""+","+"\"commodity_cover\":"+"\""+image+"\""+"}"+"\r"
+            f=open('test.txt','a+',encoding='utf-8')
+            f.write(ret)
+            f.close()
+====

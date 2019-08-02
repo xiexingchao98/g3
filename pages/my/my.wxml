@@ -61,13 +61,13 @@
     </view>
   </view> -->
 
-  <!-- <view class='app-option'>
+  <view class='app-option'>
     <view class='app-option__body'>
-      <view wx:for='{{ appOption }}' class="app-option__item">
+      <view wx:for='{{ appOption }}' class="app-option__item" bind:tap="{{ item.event ? item.event : '' }}">
         <i class="material-icons md-24 md-dark">{{ item.icon }}</i>
         <text class="app-option__text">{{ item.name }}</text>
       </view>
     </view>
-  </view> -->
+  </view>
 
 </view>
