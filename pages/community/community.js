@@ -62,7 +62,8 @@ Page({
    * 页面相关事件处理函数--监听用户下拉动作
    */
   onPullDownRefresh: function () {
-
+    wx.showLoading({ title: '刷新中' })
+    this.getIndexPost(function () { wx.hideLoading(); wx.showToast({ title: '刷新成功' })})
   },
 
   /**
@@ -78,17 +79,19 @@ Page({
   onShareAppMessage: function () {
 
   },
-  getIndexPost() {
+  getIndexPost(callback) {
     wx.request({
       method: 'GET',
       url: app.globalData.serverPath + '/database/post',
       success: (res) => {
         this.setData({ postList: res.data })
+        if (callback && typeof callback == 'function')
+          callback()
       }
     })
   },
   showReleaseNewPostPanel() {
-    wx.navigateTo({ url: '/pages/community/edit-post' })
+    app.doAfterCheckLogin(() => {wx.navigateTo({ url: '/pages/community/edit-post' })})
   },
   hideReleaseNewPostPanel() {
     wx.navigateBack({

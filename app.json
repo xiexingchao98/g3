@@ -1,7 +1,7 @@
 {
   "pages": [
-    "pages/community/community",
     "pages/index/index",
+    "pages/community/community",
     "pages/post/post",
     "pages/community/edit-post",
     "pages/my/my",

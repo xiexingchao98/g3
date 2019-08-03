@@ -1,6 +1,23 @@
 //app.js
 App({
+  globalData: {
+    userInfo: null,
+    // serverPath: 'http://120.78.163.56/'
+    // serverPath: 'http://127.0.0.1:8360/api',
+    // socketServerPath: 'ws://localhost:8360/api/database/ws',
+    storageKey: 'g3',
+    socketServerPath: 'wss://whatdoyoudo.club/api/database/ws',
+    serverPath: 'https://whatdoyoudo.club/api',
+    safePaddingBottom: 0
+  }, 
   onLaunch: function () {
+    let that = this
+    wx.getSystemInfo({
+      success (res) {
+        console.log(res)
+        that.globalData.safePaddingBottom = res.screenHeight - res.safeArea.bottom
+      }
+    })
     // // 展示本地存储能力
     // var logs = wx.getStorageSync('logs') || []
     // logs.unshift(Date.now())
@@ -33,13 +50,16 @@ App({
     //   }
     // })
   },
-  globalData: {
-    userInfo: null,
-    // serverPath: 'http://120.78.163.56/'
-    // serverPath: 'http://127.0.0.1:8360/api',
-    // socketServerPath: 'ws://localhost:8360/api/database/ws',
-    storageKey: 'g3',
-    socketServerPath: 'wss://whatdoyoudo.club/api/database/ws',
-    serverPath: 'https://whatdoyoudo.club/api'
+  doAfterCheckLogin(success, fail) {
+    let storage = wx.getStorageSync(this.globalData.storageKey)
+    if (!storage) {
+      if (fail && typeof fail == 'function')
+        fail()
+      else
+        wx.showToast({ title: '请先登录', icon: 'none' })
+    }
+    else if (success && typeof success == 'function') {
+      success()
+    }
   }
 })

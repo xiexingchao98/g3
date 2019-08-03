@@ -12,13 +12,16 @@ Page({
     // menuItems: [{text: '测肤', icon: 'camera', url: '/pages/skin-test/skin-test'}, {text: '趋势', icon: 'trending_up', color: '#009acd'}, {text: '品牌', icon: 'business', color: null}, {text: '定制', icon: 'build', color: null}],
     menuItems: [{text: '测肤', icon: 'camera', url: '/pages/skin-test/skin-test'}],
     // commodityList: [{name: '测试商品【1】', price: 99.9, cover: 'http://image2.suning.cn/uimg/b2c/newcatentries/0070153884-000000000623667571_3_800x800.jpg'},{name: '测试商品【1】', price: 99.9, cover: 'http://image2.suning.cn/uimg/b2c/newcatentries/0070153884-000000000623667571_3_800x800.jpg'},{name: '测试商品【1】', price: 99.9, cover: 'http://image2.suning.cn/uimg/b2c/newcatentries/0070153884-000000000623667571_3_800x800.jpg'},{name: '测试商品【1】', price: 99.9, cover: 'http://image2.suning.cn/uimg/b2c/newcatentries/0070153884-000000000623667571_3_800x800.jpg'},{name: '测试商品【1】', price: 99.9, cover: 'http://image2.suning.cn/uimg/b2c/newcatentries/0070153884-000000000623667571_3_800x800.jpg'}]
-    commodityList: []
+    commodityList: [],
+    safePaddingBottom: 0
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    console.log('safePaddingBottom', app.globalData.safePaddingBottom)
+    this.setData({ safePaddingBottom: app.globalData.safePaddingBottom })
     this.getRecommendCommodity()
   },
 
