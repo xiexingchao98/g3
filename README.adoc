@@ -490,3 +490,54 @@ image:rgb_test2.png[结果2]
 参阅
 
 https://blog.csdn.net/yangtrees/article/details/7439625
+
+day4 物流模块
+基础A实现过程:
+1.先在wxml文件中编写一个view,然后给这个view排版布局，来拜访我们的物流信息，至于里面的具体数据需要从数据库中调取
+1.在js文件中调用微信官方API，wx:request,将存储于数据库内的物流信息调取出来
+2.JS核心代码，需要注意的几点：（1）.要将JSON字符串通过JSON.parse语句将json字符串转化json对象，以便我们后续使用json中的内容，例如：
+res.data.data.shipping_info = JSON.parse(res.data.data.shipping_info)
+（2）.sucess中res返回的数据中的data是微信官方包装好的数据data中返回的才是我们从数据库中要调取的真实数据data，所以此时需要注意陷阱，编写代码时要写 res.data.data.shipping_info
+代码如下：
+wx.request({
+//这个url是本机的IP地址 会出现不合法域名，在 >>这里设置忽略不校验合法域名
+url: 'https://whatdoyoudo.club/api/database/shipping/viewDetail', //仅为示例，并非真实的接口地址
+data: {
+shipping_id: 1
+},
+method: "post",
+header: {
+'content-type': 'application/json'
+},
+success: (res) => { //这边要用 res => 来记录历史
+console.log(res.data)
+console.log(res.data.data.shipping_info)
+res.data.data.shipping_info = JSON.parse(res.data.data.shipping_info)//要写两个data,因为微信小程序会自动绑定一个data，将其遮住，是一个陷阱
+console.log(res.data.data.shipping_info)
+this.setData({
+wuliu: res.data //返回数据
+})
+console.log( this.data.wuliu)
+}
+})
+3.在相关的wxml文件中，要实现如何与数据库中的数据对接核心代码如下 ：
+<view class="bcd">
+<view wx:if="{{wuliu.errno==0 }}">{{wuliu.errmsg}}
+<view>物流编号：{{wuliu.data.shipping_id}}</view>
+<view wx:for="{{wuliu.data.shipping_info}}">
+<view>时间:{{item.date}}</view>
+<view>类型:{{item.type}}</view>
+<view>地点:{{item.location}}</view>
+</view>
+<view wx:if="{{wuliu.data.shipping_status==0}}">商品运输状态:揽件中</view>
+<view wx:if="{{wuliu.data.shipping_status==1}}">商品运输状态:运输中</view>
+<view wx:if="{{wuliu.data.shipping_status==2}}">商品运输状态:配送中</view>
+<view wx:if="{{wuliu.data.shipping_status==3}}">商品运输状态:配送完成</view>
+</view>
+</view>
+高级B实现过程
+1.背景：用户选择购买商品时，肯定是从美加喵中已有的商品中购买，此时则没有定制这一说法，我们能做到的是把用户已购商品的基础信息以一个静态的页面去实现，诸如：商品的来源公司信息，商品的成分分析，商品从原料进口到罐装物流的时间段告知用户，让客户安心放心地选购我们的商品，保证商品的透明性，提升用户粘度。定制代码的编程可以对大批量采购定制需求的公司级别客户单独开发这一模块，普通用户不需要这一模块
+2.宝贝详情页面分支 
+3.页面及其信息展示
+
+
