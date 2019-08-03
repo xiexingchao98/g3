@@ -405,7 +405,7 @@ thinkjs 接收子进程产生的 json 数据并返回给客户端。
 
 *效果图*
 
-image::skin-test-result.jpg[肤质检测结果页面效果图]
+image::skin-test-result.jpg[肤质检测结果页面效果图, 50%, 50%]
 
 ==== C 添加测试商品数据
 
@@ -490,3 +490,183 @@ image:rgb_test2.png[结果2]
 参阅
 
 https://blog.csdn.net/yangtrees/article/details/7439625
+
+==== B 完成肤质和商品的映射
+
+*目标*
+
+. 完成分类检测结果与商品的映射关系，点击肤质会重新对商品进行排序
+
+*实现介绍*
+
+根据肤质给每个商品贴上标签，如：美白、控油、去皱等。
+
+当用户进行肤质检测时，根据其结果，生成对应的解决办法（即推荐商品的标签），然后直接从数据库中取出相应商品。
+
+*_暂未实现_*
+
+. 点击不同肤质商品重排序
+
+== Day4
+
+=== 基础
+
+==== B 编写物流查询API
+
+*目标*
+
+. 编写调用规则，供物流和各类物联网企业查询
+
+*实现介绍*
+
+_待确认细节_
+
+有关目前已编写的 API 文档（草稿），请参阅 https://whatdoyoudo.club/doc/api.html
+
+==== C 扫描二维码并发送相关信息给组长
+
+*目标*
+
+. 组员扫描二维码后，将二维码、时间和GPS信息发送至组长处，组长收集后将其展示在界面中
+
+*实现介绍*
+
+. 组员扫描二维码后，解析二维码内容，将其与时间、GPS信息封装成对象，待发送
+. 组员连接至WebSocket服务器，发送准备好的数据
+. 服务端接受到客户端数据，暂存数据到内存中
+. 组长向服务端发起收集信息请求，附带上自己的身份信息，供服务端确认
+. 服务端收到收集信息请求，验证对方身份信息后，返回暂存的数据
+. 组长获得数据，展示在页面上
+. 组长重复发送收集请求，直至数据确认收集完毕
+
+=== 高级
+
+==== A 检测物联网数据采集状况
+
+*目标*
+
+. 对物联网数据的实时采集进行监控，如果某一时刻，发生数据采集失败的情况，则推送报警信息
+
+*实现介绍*
+
+*_设计数据表_*
+
+【服务端】
+
+建数据表，各字段为各种设备的数据，每条记录包含时间戳。
+
+客户端请求时，每次返回最新的记录。
+
+【客户端】
+
+定时向服务端发送数据请求，接受到数据后，对时间戳进行验证。
+
+如果时间戳与当前时间差值过大，则判定该数据无效，即服务端没有新数据，则推送报警信息。
+
+或者如果数据中部分字段值为 `null` 或 ``（空串）也推送报警信息。
+
+== Day5
+
+=== 基础
+
+==== A 添加社交场景
+
+*目标*
+
+. 设计一个能够发帖的社交场景
+
+*实现介绍*
+
+1.设计数据表（MySQL）
+
+[NOTE]
+====
+由于我们使用 `wx.login` 来实现登录，故此处的用户表中存放了用户在微信中的相关信息。
+====
+
+[source, sql]
+----
+-- 用户表
+CREATE TABLE `user` (
+  `user_id` int unsigned PRIMARY KEY AUTO_INCREMENT,
+  `openid` varchar(100) NOT NULL,
+  `session_key` varchar(100) NOT NULL,
+  `gender` tinyint DEFAULT 0,
+  `phone` varchar(11) DEFAULT '',
+  `nick_name` varchar(100) DEFAULT '',
+  `avatar_url` varchar(200) DEFAULT '',
+  `country` varchar(50),
+  `province` varchar(50),
+  `city` varchar(50)
+) ENGINE = InnoDB AUTO_INCREMENT = 0 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+
+-- 帖子表
+CREATE TABLE `post` (
+  `post_id` int unsigned PRIMARY KEY AUTO_INCREMENT,
+  `post_title` varchar(200) NOT NULL,
+  `post_content` text NOT NULL,
+  `topic_id` int unsigned,
+  `last_comment_time` timestamp,
+  `create_time` timestamp DEFAULT now(),
+  `post_owner_id` int unsigned NOT NULL,
+  FOREIGN KEY (`post_owner_id`) REFERENCES `user` (`user_id`) ON DELETE CASCADE,
+  FOREIGN KEY (`topic_id`) REFERENCES `topic` (`topic_id`)
+) ENGINE = InnoDB AUTO_INCREMENT = 0 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+
+-- 评论表
+CREATE TABLE `comment` (
+  `comment_id` int unsigned PRIMARY KEY AUTO_INCREMENT,
+  `comment_content` text,
+  `comment_owner_id` int unsigned,
+  `post_id` int unsigned,
+  `create_time` timestamp,
+  FOREIGN KEY (`comment_owner_id`) REFERENCES `user` (`user_id`) ON DELETE CASCADE,
+  FOREIGN KEY (`post_id`) REFERENCES `post` (`post_id`) ON DELETE CASCADE
+) ENGINE = InnoDB AUTO_INCREMENT = 0 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+----
+
+2.设计接口（后端使用 ThinkJS 实现）
+
+.post.js
+[source, js]
+----
+async indexAction() {
+  let data = await this.model('post').getDefaultIndex(20)
+  this.json(data)
+}
+
+async viewDetailAction() {
+  let data = await this.model('post').getDetailById(this.get('id'))
+  this.json(data[0])
+}
+
+async viewCommentAction() {
+  let commentList = await this.model('post').getCommentById(this.get('id'))
+  this.json(commentList)
+}
+
+async doCommentAction () {
+  // 用户身份信息解密，可省略
+  let decrypted = decrypt(this.post('storage'))
+  let pair = decrypted.split(':')
+  let userid = pair[0]
+  let openid = pair[1]
+  let data = this.post('data')
+  data['comment_owner_id'] = userid
+
+  let comment_id = await this.model('comment').add(data)
+  this.success({comment_id: comment_id}, '评论发布成功')
+}
+----
+
+3.前端对接实现（略）
+
+代码示例
+
+link:./pages/community[社区首页]
+
+link:./pages/post[帖子详情]
+
+4.效果图
+
+image::community.jpg[社区界面, 50%, 50%]
