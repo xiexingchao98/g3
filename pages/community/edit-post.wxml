@@ -2,7 +2,7 @@
   <label>标题</label>
   <input type="text" class="input" name='post_title'/>
   <label>内容</label>
-  <textarea class='textarea' ame="" id="" cols="30" rows="10" name='post_content'></textarea>
+  <textarea class='textarea' name='post_content' maxlength="6000" auto-height="true" rows='40'></textarea>
   <!-- <label>话题</label>
   <input type="text" class="input" name='post_topic'/> -->
   <view class="buttons">

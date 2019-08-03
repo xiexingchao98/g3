@@ -41,8 +41,11 @@ Page({
     let that = this
     wx.checkSession({
       success: () => {
-        console.log('check session success')
-        this.getUserInfo()
+        let storage = wx.getStorageSync(app.globalData.storageKey)
+        if (storage) {
+          console.log('check session success')
+          this.getUserInfo()
+        }
       },
       fail: () => {
         console.log('check session fail')

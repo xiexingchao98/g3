@@ -29,7 +29,7 @@
 page {
   font-family: puhui;
   color: rgba(0,0,0,.78);
-  padding-bottom: 50px;
+  /* padding-bottom: 50px; */
 }
 
 .page {
