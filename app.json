@@ -1,6 +1,8 @@
 {
   "pages": [
     "pages/index/index",
+    "pages/index/hot",
+    "pages/index/latest",
     "pages/community/community",
     "pages/post/post",
     "pages/community/edit-post",

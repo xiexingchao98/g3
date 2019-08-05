@@ -265,6 +265,23 @@ page {
   flex-direction: row;
 }
 
+.hero {
+  font-size: 16pt;
+  letter-spacing: 2rpx;
+  font-weight: bold;
+  padding: 48rpx 36rpx;
+}
+
+.hero_theme-purple {
+  color: #fff;
+  background: linear-gradient(175deg, #8b00dd, #cd00ea, #e98df5)
+}
+
+.hero_theme-orangered {
+  color: #fff;
+  background: linear-gradient(175deg, orangered, orangered 35%, orange)
+}
+
 .title {
   margin: 24rpx 0;
 }
@@ -278,6 +295,7 @@ page {
 }
 
 .title_size-m {
+  font-size: 18pt;
   margin: 36rpx 0;
 }
 
