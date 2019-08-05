@@ -96,14 +96,13 @@ Page({
     let tags = ''
     for (let i = 0; i < testResult.length; ++i) {
       let detail = testResult[i].detail
-      if (Array.isArray(detail)) {
-        for (let j = 0; j < detail.length; ++j) {
-          if (detail[j].solution)
-            tags += detail[j].solution + ','
+      for (let j = 0; j < detail.length; ++j) {
+        if (detail[j].solution) {
+          for (let tag of detail[j].solution) {
+            tags += tag + ','
+          }
         }
       }
-      else if (detail.solution)
-        tags += detail.solution + ','
     }
     tags = tags.substring(0, tags.length - 1)
     this.setData( {tags: tags })
