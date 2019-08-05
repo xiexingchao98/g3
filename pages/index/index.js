@@ -14,9 +14,19 @@ Page({
     // menuItems: [{text: '测肤', icon: 'camera', url: '/pages/skin-test/skin-test'}],
     // commodityList: [{name: '测试商品【1】', price: 99.9, cover: 'http://image2.suning.cn/uimg/b2c/newcatentries/0070153884-000000000623667571_3_800x800.jpg'},{name: '测试商品【1】', price: 99.9, cover: 'http://image2.suning.cn/uimg/b2c/newcatentries/0070153884-000000000623667571_3_800x800.jpg'},{name: '测试商品【1】', price: 99.9, cover: 'http://image2.suning.cn/uimg/b2c/newcatentries/0070153884-000000000623667571_3_800x800.jpg'},{name: '测试商品【1】', price: 99.9, cover: 'http://image2.suning.cn/uimg/b2c/newcatentries/0070153884-000000000623667571_3_800x800.jpg'},{name: '测试商品【1】', price: 99.9, cover: 'http://image2.suning.cn/uimg/b2c/newcatentries/0070153884-000000000623667571_3_800x800.jpg'}]
     commodityList: [],
-    safePaddingBottom: 0
+    safePaddingBottom: 0,
+    searchvalue:''
   },
-
+  onSearch : function(event){
+    wx.request({
+      url:"http://www.whatdoyoudo.club",
+      data:{
+        value:this.searchvalue
+      }
+    },res=>{
+      
+    })
+  },
   /**
    * 生命周期函数--监听页面加载
    */
