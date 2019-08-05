@@ -1,6 +1,6 @@
 <view class="page" style="padding-bottom: calc(50px + {{ safePaddingBottom }}px)">
   <view class='page__hd page__hd_shadow-light'>
-    <van-search placeholder='请输入搜索关键字' />
+    <van-search placeholder='请输入搜索关键字' bind:search="onSearch"/>
   </view>
   <view class='page__bd'>
     <swiper indicator-dots='true' autoplay='true'>

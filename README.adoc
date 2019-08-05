@@ -752,3 +752,133 @@ link:./pages/post[帖子详情]
 4.效果图
 
 image::community.jpg[社区界面, 50%, 50%]
+==== C 尝试搜索功能
+
+*目标*
+
+. 对关键词匹配后，重新排序并显示
+
+
+*实现介绍*
+    
+使用数据库模糊查询语句like
+  
+  客户端：接受搜索控件的值，点击确认后发回给服务器。
+  服务器端：接受客户端的搜索字段，然后使用sql的like语句，进入数据库查询结果并返回给客户端
+  客户端代码：  
+[source,js]
+----
+ onSearch: function (event) {
+    this.setData({
+      searchvalue:event.detail
+    })
+    wx.request({
+      url: "https://www.whatdoyoudo.club",
+      data: {
+        value: event.detail
+      }
+    })
+  }
+----
+服务器端代码：
+[source,js]
+----
+const Base = require('./base.js');
+
+module.exports = class extends Base {
+  async searchAction(){
+      const searchstr=this.get("value");
+      const user = this.model('test');
+      const userid =await user.query("select * from commodity where commodity_name like \'%"+searchstr+"%\';")
+      console.log(userid)
+      return this.json(userid);
+  }
+};
+----
+
+
+
+
+=== 高级
+==== A 学习使用高级搜索功能
+
+*目标*
+. 学习使用*号进行模糊匹配，推荐使用KMP算法
+
+KMP算法实现
+  
+KMP算法目的是为了实现字符串查找,算法主要有两部分
+1、计算ptr(模式串)每一位及之前的字符串中，前缀和后缀公共部分的最大长度的next数组
+2、匹配ptr(模式串)和str(字符集)，当ptr失配时，利用next数组，实现ptr的最大后移，从而避免不必要的匹配，减少匹配次数
+
+第一步：计算前缀后缀最长公共元素长度的数组（next数组）
+
+  前缀和后缀公共部分的最大长度
+  一个字符串ababa，他的前缀是可以是a,ab,aba,abab(不包含最后一位)，后缀是a,ba,aba,baba(不包含第一位)
+  前缀后缀公共部分就是a和aba，公共部分最大就是aba，公共部分的最大长度就是3
+  根据这个我们就可以计算next数组
+  比如  ababa
+  我们得到的数组是 
+  [0,0,1,2,3]
+  下面的图示讲解了next数组的计算
+
+image::next.png[next数组计算,50%,50%]
+这个主要是根据规律得到next数组
+具体代码实现：
+
+go语言实现
+[source,go]
+----
+func prefix(pattern string) map[int]int{
+	patl:=len(pattern)//计算模式串长度
+	prefixbox:=make(map[int]int,patl)创建对应长度的数组
+	prefixbox[0]=0  //数组的起始位置为0，一个字符的就是它本身，没有前后缀
+	len:=0 //用来标志前缀的长度
+	for i:=1;i<patl;{
+		if pattern[len]==pattern[i]{ 
+			prefixbox[i]=len+1
+			i++
+			len++
+		}
+		if len!=0&&pattern[len]!=pattern[i]{
+			len=len-1
+		}
+		if len==0&&pattern[len]!=pattern[i]{
+			prefixbox[i]=0
+			i++
+		}
+	}
+	return prefixbox
+}
+----
+
+第二步：第一部分利用next函数得到了next数组，下一步执行kmp函数，对ptr(模式串)和str(字符集)进行匹配，并当ptr和str失配时，利用next数组，进行最大位移。
+
+image::kmpsearch.png[kmp搜索,50%,50%]
+go语言实现
+[source,go]
+----
+func kmp_search(pattern string,text string) []int{
+	prf:=prefix(pattern)
+	var patternindex []int
+	for i,j:=0,0;i<len(text);{
+		fmt.Printf("i=%d,j=%d",i,j)
+		if text[i]==pattern[j]{
+			i++
+			j++
+		}
+		if text[i]!=pattern[j] {
+			j = prf[j-1]
+			if j==0{
+				i++
+			}
+		}
+		if j==len(pattern)-1{
+			patternindex=append(patternindex,i-j)
+			j=prf[j]
+		}
+	}
+	return patternindex
+}
+----
+参考资料：https://www.jianshu.com/p/dcfa55a773f0
