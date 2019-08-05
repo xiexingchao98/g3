@@ -354,7 +354,7 @@ page {
 }
 
 .disable {
-  display: none;
+  display: none !important;
 }
 
 .shadow {

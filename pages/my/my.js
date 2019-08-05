@@ -106,12 +106,10 @@ Page({
     
   },
   doLogin (e) {
-    console.log(e)
     if (e.detail.userInfo) {
       wx.showLoading({ title: '登录中' })
       wx.login({
         success: (res) => {
-          console.log(res.code)
           wx.request({
             method: 'POST',
             url: app.globalData.serverPath + '/database/oauth/login/weixin',

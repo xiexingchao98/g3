@@ -7,6 +7,8 @@
   justify-content: space-evenly;
   width: 100%;
   height: 100rpx;
+  align-items: center;
+  padding: 12rpx 0;
 }
 .custom-class{
   height: 100%;
