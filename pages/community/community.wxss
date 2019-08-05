@@ -1,7 +1,17 @@
 .page {
   padding: 12rpx 18rpx;
 }
-
+.page__hd{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  width: 100%;
+  height: 100rpx;
+}
+.custom-class{
+  height: 100%;
+  width: 100%;
+}	
 .message {
   position: relative;
 }

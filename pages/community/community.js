@@ -9,7 +9,8 @@ Page({
     postList: [],
     isShowReleasenNewPostPanel: false,
     unreadMessageCount: 0,
-    unreadMessageList: []
+    unreadMessageList: [],
+    safePaddingBottom:0
   },
 
   /**
@@ -43,7 +44,26 @@ Page({
     let unreadMessageCount = this.countUnreadMessage(unreadMessageList)
     this.setData({ unreadMessageCount: unreadMessageCount })
   },
-
+  onSearch: function (event) {
+    wx.request({
+      url: 'https://www.whatdoyoudo.club/api/skintest/search/communitysearch', //仅为示例，并非真实的接口地址
+      data: {
+        value: event.detail
+      },
+      header: {
+        'content-type': 'application/json' // 默认值
+      },
+      success(res) {
+        wx.setStorage({
+          key: 'communityresult',
+          data: res.data,
+        })
+        wx.navigateTo({
+          url: '/pages/communitysearch/communitysearch',
+        })
+      }
+    })
+  },
   /**
    * 生命周期函数--监听页面隐藏
    */

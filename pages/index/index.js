@@ -10,22 +10,12 @@ Page({
     'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1563812682360&di=f3119561250c5f17781e3650d32a58a6&imgtype=0&src=http%3A%2F%2Fimg.redocn.com%2Fsheji%2F20160325%2Ftaobaotianmaohufupinhuazhuangpinhaibaoguanggao_6053996.jpg',
     'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1563812682361&di=193dff98488bc60cd28ebf62184fb223&imgtype=0&src=http%3A%2F%2Fimg.pconline.com.cn%2Fimages%2Fupload%2Fupc%2Ftx%2Fphotoblog%2F1409%2F02%2Fc2%2F38151288_1409622293587_mthumb.jpg'],
     // menuItems: [{text: '测肤', icon: 'camera', url: '/pages/skin-test/skin-test'}, {text: '趋势', icon: 'trending_up', color: '#009acd'}, {text: '品牌', icon: 'business', color: null}, {text: '定制', icon: 'build', color: null}],
-    menuItems: [{text: '测肤', icon: 'camera', url: '/pages/skin-test/skin-test'}, {text: '新品', icon: 'fiber_new', color: '#8b00dd', url: '/pages/index/latest'}, {text: '热门', icon: 'trending_up', url: '/pages/index/hot'}, {text: '品牌', icon: 'business', color: null}],
+    menuItems: [{text: '测肤', icon: 'camera', url: '/pages/skin-test/skin-test'}, {text: '新品', icon: 'fiber_new', color: '#8b00dd', url: '/pages/index/latest'}, {text: '热门', icon: 'trending_up', url: '/pages/index/hot'}, {text: '品牌', icon: 'business', color: null,url:'/pages/brand/brand'}],
     // menuItems: [{text: '测肤', icon: 'camera', url: '/pages/skin-test/skin-test'}],
     // commodityList: [{name: '测试商品【1】', price: 99.9, cover: 'http://image2.suning.cn/uimg/b2c/newcatentries/0070153884-000000000623667571_3_800x800.jpg'},{name: '测试商品【1】', price: 99.9, cover: 'http://image2.suning.cn/uimg/b2c/newcatentries/0070153884-000000000623667571_3_800x800.jpg'},{name: '测试商品【1】', price: 99.9, cover: 'http://image2.suning.cn/uimg/b2c/newcatentries/0070153884-000000000623667571_3_800x800.jpg'},{name: '测试商品【1】', price: 99.9, cover: 'http://image2.suning.cn/uimg/b2c/newcatentries/0070153884-000000000623667571_3_800x800.jpg'},{name: '测试商品【1】', price: 99.9, cover: 'http://image2.suning.cn/uimg/b2c/newcatentries/0070153884-000000000623667571_3_800x800.jpg'}]
     commodityList: [],
     safePaddingBottom: 0,
     searchvalue:''
-  },
-  onSearch : function(event){
-    wx.request({
-      url:"http://www.whatdoyoudo.club",
-      data:{
-        value:this.searchvalue
-      }
-    },res=>{
-      
-    })
   },
   /**
    * 生命周期函数--监听页面加载
@@ -42,7 +32,26 @@ Page({
   onReady: function () {
 
   },
-
+  onSearch: function (event) {
+    wx.request({
+      url: 'https://www.whatdoyoudo.club/api/skintest/search/search', //仅为示例，并非真实的接口地址
+      data: {
+        value: event.detail
+      },
+      header: {
+        'content-type': 'application/json' // 默认值
+      },
+      success(res) {
+        wx.setStorage({
+          key: 'result',
+          data: res.data,
+        })
+        wx.navigateTo({
+          url: '/pages/search/search',
+        })
+      }
+    })
+  },
   /**
    * 生命周期函数--监听页面显示
    */

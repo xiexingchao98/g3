@@ -1,0 +1,9 @@
+/* pages/brand/brand.wxss */
+.brand{
+  width: 50%;
+  height: 10%;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}

@@ -1,0 +1,8 @@
+<view class='body'>
+<block wx:for="{{branditem}}">
+<view class='brand' id="{{item.brand_id}}" bindtap='onclick'>
+<view class='brandname'>{{item.brand_name}}</view>
+</view>
+</block>
+</view>
+

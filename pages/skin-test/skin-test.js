@@ -44,7 +44,7 @@ Page({
     //     })
     //   }
     // })
-    setInterval(this.scanPhoto,5000)
+    setInterval(this.scanPhoto,3000)
   },
 
   /**

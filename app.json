@@ -17,7 +17,10 @@
     "pages/commodity/commodity",
     "pages/logs/logs",
     "pages/cart/cart",
-    "pages/community/unread-message"
+    "pages/community/unread-message",
+    "pages/search/search",
+    "pages/communitysearch/communitysearch",
+    "pages/brand/brand"
   ],
   "window": {
     "backgroundTextStyle": "light",

@@ -1,9 +1,12 @@
-<view class="page" style="padding-bottom: calc(50px + {{ safePaddingBottom }}px)">
-  <view class="page__hd" style="display: flex; justify-content: end; border-bottom: 1px dotted #eee">
+<view class="page" style="padding-bottom: calc(50px + 35px + {{ safePaddingBottom }}px)">
+  <view class="page__hd" style="display: flex; border-bottom: 1px dotted #eee">
     <navigator url='/pages/community/unread-message' class="message" style="position: relative">
       <i class='material-icons md-24 md-dark'>markunread</i>
       <text class="message__red-circle">{{ unreadMessageCount }}</text>
     </navigator>
+    <view>
+    <van-search class="search" placeholder='请输入搜索关键字' bind:search="onSearch"/>
+    </view>  
   </view>
   <view class="page__bd" style="margin: 48rpx 0">
     <navigator wx:for='{{ postList }}' url='/pages/post/post?id={{ item.post_id }}' class="post-preview">
