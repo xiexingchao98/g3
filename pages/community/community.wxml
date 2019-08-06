@@ -1,4 +1,4 @@
-<view class="page" style="padding-bottom: calc(50px + 35px + {{ safePaddingBottom }}px)">
+<view class="page" style="padding-bottom: calc(50px + 48px + {{ safePaddingBottom }}px)">
   <view class="page__hd" style="display: flex; border-bottom: 1px dotted #eee">
     <view style="flex: 1 1;">
     <van-search class="search" placeholder='请输入搜索关键字' bind:search="onSearch"/>

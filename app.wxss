@@ -272,6 +272,10 @@ page {
   padding: 48rpx 36rpx;
 }
 
+.hero_size-m {
+  padding: 78rpx 36rpx;
+}
+
 .hero_theme-purple {
   color: #fff;
   background: linear-gradient(175deg, #8b00dd, #cd00ea, #e98df5)
@@ -280,6 +284,11 @@ page {
 .hero_theme-orangered {
   color: #fff;
   background: linear-gradient(175deg, orangered, orangered 35%, orange)
+}
+
+.hero_theme-dark {
+  color: #fff;
+  background-image: linear-gradient(141deg, #1f191a 0, #363636 71%, #46403f 100%);
 }
 
 .title {

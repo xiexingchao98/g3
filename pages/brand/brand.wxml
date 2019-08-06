@@ -1,8 +1,11 @@
 <view class='body'>
-<block wx:for="{{branditem}}">
-<view class='brand' id="{{item.brand_id}}" bindtap='onclick'>
-<view class='brandname'>{{item.brand_name}}</view>
-</view>
-</block>
+  <view class="hero hero_size-m hero_theme-dark">品牌列表</view>
+  <view class="brand-wapper" style="display: flex; flex-wrap: wrap;">
+    <block wx:for="{{branditem}}">
+      <view class='brand' id="{{item.brand_id}}" bindtap='onclick'>
+        <view class='brand__name'>{{item.brand_name}}</view>
+      </view>
+    </block>
+  </view>
 </view>
 

@@ -1,9 +1,16 @@
-/* pages/brand/brand.wxss */
 .brand{
-  width: 50%;
-  height: 10%;
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  justify-content: space-between;
+  font-size: 11pt;
+  flex: 1 1 100%;
+  padding: 36rpx 48rpx;
+  position: relative;
+}
+
+.brand::after {
+  content: '';
+  position: absolute;
+  background-color: #eee;
+  width: 85%;
+  height: 1px;
+  left: 7.5%;
+  bottom: 0;
 }

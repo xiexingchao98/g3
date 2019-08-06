@@ -77,6 +77,7 @@ Page({
         }
       },
       success: (res) => {
+        let comment_id = res.data.data.comment_id
         this.setData({ comment_content: '' })
         // 反馈操作结果
         wx.showToast({ title: res.data.errmsg })
@@ -88,6 +89,7 @@ Page({
             storage: wx.getStorageSync(app.globalData.storageKey),
             // 通知消息详情
             message: {
+              comment_id: comment_id,
               post_id: this.data.post_id,
               unread: true
             }
