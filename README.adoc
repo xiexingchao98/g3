@@ -1,9 +1,13 @@
 = G3 Project
 :toc:
 :toclevels: 5
+:toc: left
+:toc-title: 目录
 :imagesdir: ./images
 
 API 参考 https://whatdoyoudo.club/doc/api.html
+
+HTML 版在线文档 https://whatdoyoudo.club/doc/README.html
 
 == Day2
 
@@ -48,49 +52,61 @@ https://youzan.github.io/vant-weapp/#/intro - Vant UI 组件库
 
 ==== B 调用光学摄像头和手机传感器
 
-目标
+*目标*
 
 . 在小程序中调用光学摄像头、手机传感器
 
-实现介绍
+*实现介绍*
 
-在微信小程序端使用 `wx.createCameraContext` 调用摄像头，该方法创建一个 `CameraContext` 对象。
+使用 `wx.createCameraContext` 方法调用摄像头，该方法创建一个 `CameraContext` 对象。
 
-在肤质识别的实例中我们主要使用 `takePhoto()` 方法拍摄并存储照片。
+我们将使用  `CameraContext` 的 `takePhoto()` 方法拍摄照片。
 
-`takePhoto()` 中的需要注意的参数是
+`takePhoto()` 方法接受一个对象作为参数。
 
-....
-quality // 根据需要调整图片质量
-success // 拍摄成功的回调参数
-fail //拍摄失败的回调参数
-....
+Object 属性详情
+|===
+| 属性名 | 含义
 
-我们需要在 `success` 的回调参数中拿到 `res.tempImagePath` 。
+| quality | 图片质量
+| success | 拍照成功后的回调函数
+| fail | 拍照失败后的回调函数
 
-`tempImagePath` 是照片文件在微信端的临时路径。
+|===
 
-然后在 `takePhoto` 的 `success` 回调函数中将拍摄的内容上传到服务器。
+`success` 的回调函数中，包含返回结果 `res` 。
 
-如果失败向客户端显示拍摄失败字样（使用 `wx.showToast` 方法）。
+`res` Object 属性
+|===
+| 属性名 | 含义
 
-照片上传这个步骤需要使用到微信的 API ：`wx.uploadFile`
-`uploadFile` 方法中我们主要使用以下参数
+| tempImagePath | 照片在手机中的的临时路径
 
-....
-url // 上传服务器的地址
-filePath // 上传文件的路径（也就是我们拍摄照片的临时路径）
-name // 上传文件对应的key
-success // 上传成功的回调函数
-fail // 上传失败的回调函数
-....
+|===
+
+获取到照片路径之后，我们就可以使用 `wx.uploadFile()` 将拍摄的内容上传到服务器。
+
+`wx.uploadFile` 接受 Object 作为参数
+
+Object 属性详情
+|===
+| 属性名 | 含义
+
+| url | 上传服务器的地址
+| filePath | 上传文件的路径（也就是我们拍摄照片的临时路径）
+| name | 上传文件对应的key
+| success | 上传成功的回调函数
+| fail | 上传失败的回调函数
+
+|===
 
 图片上传成功后我们需要向客户端显示上传成功的提示，并且进行跳转，跳转到肤质检查的结果页面。图片失败则向客户端显示拍摄失败字样（使用 `wx.showToast` 方法）。
 
-代码实现：
+如果失败向客户端显示拍摄失败字样（使用 `wx.showToast` 方法）。
 
-https://github.com/xiexingchao98/g3/blob/master/pages/skin-test/skin-test.js
+代码样例：
 
+https://github.com/xiexingchao98/g3/blob/master/pages/skin-test/skin-test.js[skin-test.js]
 
 ==== C 使用WebSocket搜集数据
 
@@ -218,34 +234,49 @@ https://patents.google.com/patent/CN106529429A/zh - 肤质检测硕博论文
 
 1.获取设备的方向信息
 
-使用微信小程序中的设备方向 API 。为了在照相功能启动之后马上能获取设备的方向信息，必须在在肤质检查页面加载之后开始设备方向的监听。
+调用设备方向监听 API 。
 
-在对应页面的 `js` 文件中的 `OnShow` 中我们开启设备方向的监听。
+为了在照相功能启动之后马上能获取设备的方向信息，必须在肤质检查页面加载之后开始设备方向的监听。
 
-`wx.startDeviceMotionListening` 参数设置
+我们在 `OnShow()` 生命周期函数中开启设备方向的监听。
 
-....
-interval——监听设备方向的频率 在该实例中我们使用normal
-success——接口调用成功的回调函数
-fail——接口调用失败的回调函数
-wx.onDevieceMotionChange 该方法为监听设备方向变化事件，一旦设备方向发生变化则返回三个数据
-res：
-    alpha——当 手机坐标 X/Y 和 地球 X/Y 重合时，绕着 Z 轴转动的夹角为 alpha，范围值为 [0, 2*PI)。逆时针转动为正。
-    beta——当手机坐标 Y/Z 和地球 Y/Z 重合时，绕着 X 轴转动的夹角为 beta。范围值为 [-1*PI, PI) 。顶部朝着地球表面转动为正。也有可能朝着用户为正。
-    gamma——当手机 X/Z 和地球 X/Z 重合时，绕着 Y 轴转动的夹角为 gamma。范围值为 [-1*PI/2, PI/2)。右边朝着地球表面转动为正。
-需要根据这三个值来确定设备反向
-....
+`wx.startDeviceMotionListening` 接收 Object 作为参数
 
-参阅
+Object 属性详情
+|===
+| 属性名 | 含义
 
-https://blog.csdn.net/Panda_m/article/details/57515195
+| interval | 监听设备方向的频率 在该实例中我们使用 normal
+| success | 接口调用成功的回调函数
+| fail | 接口调用失败的回调函数
 
-该实例中主要判断手机是否垂直于地面，所以我们主要用到 beta 参数。
+|===
 
-当 beta 的值为 -90 时，手机正好正向垂直于地面，为了消除用户手部抖动的影响，将 beta 值设置在 -75 到 -105 的区间内。通过
- beta 的值是否超过这个区间来判断手机是否拿起。
+`wx.onDevieceMotionChange` 返回 Object 对象
 
-客户端的显示使用 `wx.Toast` 在判断用户拿起放正后关闭设备方向的监听 `wx.stopDeviceMotionChange` 。
+该方法为监听设备方向变化事件，一旦设备方向发生变化则返回 `res` 对象
+
+`res` Object 属性详情
+|===
+| 属性名 | 含义
+
+| alpha | 当手机坐标 X/Y 和 地球 X/Y 重合时，绕着 Z 轴转动的夹角为 alpha，范围值为 [0, 2*PI)。逆时针转动为正。
+| beta | 当手机坐标 Y/Z 和地球 Y/Z 重合时，绕着 X 轴转动的夹角为 beta。范围值为 [-1*PI, PI)
+| gamma | 当手机 X/Z 和地球 X/Z 重合时，绕着 Y 轴转动的夹角为 gamma。范围值为 [-1*PI/2, PI/2)。右边朝着地球表面转动为正。
+|===
+
+我们可以根据这三个值来确定设备反向。
+
+该实例中主要判断手机是否垂直于地面，所以我们主要用到 `beta` 参数。
+
+当 `beta` 等于 -90 时，手机正好正向垂直于地面。
+
+为了消除用户手部抖动的影响，我们将 `beta` 值设置在 -75 到 -105 的区间内。如果
+ `beta` 的值超过这个区间，我们则判断手机没有摆正。
+
+判断用户拿起放并正手机后，我们使用 `wx.stopDeviceMotionChange` 来关闭设备方向的监听。
+
+然后使用 `wx.showToast` 在客户端提示用户手机已摆正，可进行拍照。
 
 代码示例： https://github.com/xiexingchao98/g3/blob/master/pages/skin-test/skin-test.js[skin-test.js]
 
@@ -313,6 +344,10 @@ async uploadAction(){
 thinkjs 接收子进程产生的 json 数据并返回给客户端。
 
 客户端通过解析 json 中的数据，根据 distance 和 headpose 中返回的值向用户展示脸部是否摆正和距离远近的结果
+
+*参阅*
+
+https://blog.csdn.net/Panda_m/article/details/57515195
 
 ==== C 对商品分类展示
 
@@ -760,12 +795,12 @@ image::community.jpg[社区界面, 50%, 50%]
 
 
 *实现介绍*
-    
+
 使用数据库模糊查询语句like
-  
+
   客户端：接受搜索控件的值，点击确认后发回给服务器。
   服务器端：接受客户端的搜索字段，然后使用sql的like语句，进入数据库查询结果并返回给客户端
-  客户端代码：  
+  客户端代码：
 [source,js]
 ----
  onSearch: function (event) {
@@ -806,7 +841,7 @@ module.exports = class extends Base {
 . 学习使用*号进行模糊匹配，推荐使用KMP算法
 
 KMP算法实现
-  
+
 KMP算法目的是为了实现字符串查找,算法主要有两部分
 1、计算ptr(模式串)每一位及之前的字符串中，前缀和后缀公共部分的最大长度的next数组
 2、匹配ptr(模式串)和str(字符集)，当ptr失配时，利用next数组，实现ptr的最大后移，从而避免不必要的匹配，减少匹配次数
@@ -818,7 +853,7 @@ KMP算法目的是为了实现字符串查找,算法主要有两部分
   前缀后缀公共部分就是a和aba，公共部分最大就是aba，公共部分的最大长度就是3
   根据这个我们就可以计算next数组
   比如  ababa
-  我们得到的数组是 
+  我们得到的数组是
   [0,0,1,2,3]
   下面的图示讲解了next数组的计算
 
@@ -835,7 +870,7 @@ func prefix(pattern string) map[int]int{
 	prefixbox[0]=0  //数组的起始位置为0，一个字符的就是它本身，没有前后缀
 	len:=0 //用来标志前缀的长度
 	for i:=1;i<patl;{
-		if pattern[len]==pattern[i]{ 
+		if pattern[len]==pattern[i]{
 			prefixbox[i]=len+1
 			i++
 			len++
